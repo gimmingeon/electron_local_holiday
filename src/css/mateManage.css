@@ -1,0 +1,80 @@
+.mate-container {
+    max-width: 600px;
+    margin: 40px auto;
+    padding: 20px;
+    font-family: 'Segoe UI', sans-serif;
+    background-color: #fdfdfd;
+    border-radius: 16px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.section-title {
+    font-size: 1.5rem;
+    margin: 20px 0 10px;
+}
+
+.selected-mates {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.selected-mate-card {
+    background-color: #d0e6ff;
+    padding: 8px 12px;
+    border-radius: 8px;
+    font-weight: bold;
+}
+
+.register-button {
+    background-color: #4a90e2;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-bottom: 20px;
+    transition: background-color 0.3s ease;
+}
+
+.register-button:hover {
+    background-color: #357ab8;
+}
+
+.member-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 30px;
+}
+
+.memberMate-card {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    cursor: pointer;
+    width: fit-content;
+    transition: all 0.2s ease;
+}
+
+.memberMate-card:hover {
+    background-color: #f0f0f0;
+}
+
+.memberMate-card.selected {
+    background-color: #d1ffd1;
+    font-weight: bold;
+}
+
+.mate-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.mate-card {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    background-color: #fafafa;
+}

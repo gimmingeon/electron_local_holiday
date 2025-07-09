@@ -1,0 +1,50 @@
+/* conditionManage.css */
+
+.condition-container {
+    padding: 2rem;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.memberCondition-card {
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-left: 5px solid #4a90e2;
+    border-radius: 8px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    transition: box-shadow 0.2s ease;
+}
+
+.memberCondition-card:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.memberCondition-name {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+}
+
+.memberCondition-condition {
+    margin-left: 1rem;
+}
+
+.memberCondition-condition strong {
+    color: #333;
+}
+
+.no-condition {
+    color: gray;
+    font-style: italic;
+    margin-left: 1rem;
+}
+
+.modal-content {
+    background: white;
+    padding: 2rem;
+    border-radius: 10px;
+    max-width: 600px;
+    margin: auto;
+    position: relative;
+}

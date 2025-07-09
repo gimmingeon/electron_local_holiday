@@ -1,0 +1,83 @@
+/* 전체 폼 컨테이너 */
+.conditionAssign-form {
+    max-width: 500px;
+    margin: 2rem auto;
+    padding: 1.5rem;
+    border: 1px solid #ccc;
+    border-radius: 12px;
+    background-color: #f9f9f9;
+    font-family: sans-serif;
+}
+
+/* 이름 표시 */
+.conditionAssign-member-name {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+}
+
+/* 각 섹션 제목 */
+.conditionAssign-form label {
+    display: block;
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
+    font-weight: bold;
+}
+
+/* 요일 선택 버튼 그룹 */
+.conditionAssign-weekday-group {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+}
+
+/* 요일 버튼 */
+.conditionAssign-weekday-button {
+    padding: 0.5rem 0.75rem;
+    border: 1px solid #aaa;
+    border-radius: 6px;
+    background-color: #fff;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.conditionAssign-weekday-button:hover {
+    background-color: #eee;
+}
+
+/* 선택된 요일 강조 */
+.conditionAssign-weekday-button.selected {
+    background-color: #4caf50;
+    color: white;
+    border-color: #4caf50;
+}
+
+/* 숫자 입력 필드 */
+.conditionAssign-form input[type="number"] {
+    width: 100%;
+    max-width: 100px;
+    padding: 0.4rem;
+    margin-bottom: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    display: block;
+}
+
+/* 등록 버튼 */
+.conditionAssign-form button {
+    margin-top: 1rem;
+    padding: 0.6rem 1.2rem;
+    border: none;
+    border-radius: 8px;
+    background-color: #2196f3;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    margin-right: 10px;
+}
+
+.conditionAssign-form button:hover {
+    background-color: #1976d2;
+}

@@ -1,0 +1,102 @@
+.member-auto-container {
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 16px;
+    border-radius: 12px;
+    background-color: #f9f9f9;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    font-family: 'Pretendard', sans-serif;
+}
+
+.member-auto-container h2 {
+    font-size: 24px;
+    margin-bottom: 16px;
+    color: #333;
+}
+
+.member-auto-container input {
+    width: 70%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    margin-right: 8px;
+}
+
+.member-auto-container button {
+    padding: 6px 12px;
+    margin: 4px;
+    border: 1px solid black;
+    border-radius: 10px;
+    background-color: white;
+    color: black;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.member-auto-container button:hover {
+    background-color: orange;
+}
+
+.member-auto-controls {
+    margin: 16px 0;
+    font-weight: bold;
+}
+
+.member-card {
+    border: 1px solid #ddd;
+    padding: 12px;
+    margin: 8px 0;
+    border-radius: 10px;
+    background-color: #fff;
+    transition: transform 0.2s ease;
+}
+
+.member-card:hover {
+    transform: scale(1.01);
+}
+
+.member-card div {
+    margin: 4px 0;
+}
+
+.weekday-button {
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    background-color: white;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.weekday-button.selected {
+    background-color: #d1e7dd;
+    font-weight: bold;
+}
+
+.week-button-wrapper {
+    display: inline-block;
+    margin: 0.5rem;
+}
+
+.week-button {
+    background-color: #f0f0f0;
+    border: 2px solid #ccc;
+    border-radius: 8px;
+    padding: 0.6rem 1.2rem;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 500;
+    transition: background-color 0.2s, border-color 0.2s, transform 0.1s;
+    text-align: center;
+    min-width: 50px;
+    user-select: none;
+}
+
+.week-button:hover {
+    background-color: #e2e8f0;
+    border-color: #999;
+}
+
+.week-button:active {
+    transform: scale(0.97);
+    background-color: #d1d5db;
+}

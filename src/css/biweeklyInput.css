@@ -1,0 +1,144 @@
+/* 전체 컨테이너 */
+.biweekly-container {
+    padding: 1.5rem;
+    max-width: 700px;
+    margin: 0 auto;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+/* 제목 */
+.biweekly-container h2 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+/* 검색 입력창 */
+.biweekly-container input[type="text"] {
+    padding: 0.5rem;
+    width: calc(100% - 110px);
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-bottom: 0.5rem;
+    box-sizing: border-box;
+}
+
+/* 검색 버튼 */
+.biweekly-container button {
+    padding: 0.5rem 1rem;
+    margin-left: 0.5rem;
+    border: none;
+    background-color: #1976d2;
+    color: white;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+}
+
+.biweekly-container button:hover {
+    background-color: #1259a3;
+}
+
+/* 요일 버튼 */
+.weekday-button-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 1rem;
+}
+
+.weekdayBi-button {
+    padding: 0.4rem 0.9rem;
+    border: 1px solid #aaa;
+    background-color: #f0f0f0;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    font-size: 0.9rem;
+}
+
+.weekdayBi-button.selected {
+    background-color: #4caf50;
+    color: white;
+    border-color: #388e3c;
+}
+
+/* 격주 배정 버튼 */
+.assign-button {
+    display: block;
+    width: 100%;
+    margin: 1.2rem 0;
+    padding: 0.75rem;
+    background-color: #ff9800;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+    text-align: center;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+}
+
+.assign-button:hover {
+    background-color: #f57c00;
+}
+
+/* 멤버 카드 */
+.memberBiweekly-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    padding: 0.75rem;
+    margin-top: 0.8rem;
+    background-color: #fafafa;
+    gap: 8px;
+}
+
+/* 그룹에 따른 멤버 카드 색상 */
+.memberBiweekly-card.group-one {
+    background-color: #e3f2fd;
+    border-color: #2196f3;
+}
+
+.memberBiweekly-card.group-two {
+    background-color: #fff3e0;
+    border-color: #ff9800;
+}
+
+.memberBiweekly-card.group-both {
+    background-color: #e8f5e9;
+    border-color: #4caf50;
+}
+
+/* 그룹 배정 버튼 */
+.group-buttons {
+    display: flex;
+    gap: 0.5rem;
+    margin: 0.3rem 0 1rem 0;
+}
+
+.group-button1 {
+    padding: 0.4rem 0.8rem;
+    background-color: #2196f3;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+}
+
+.group-button2 {
+    padding: 0.4rem 0.8rem;
+    background-color: #ff9800;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+}
+
+.group-button:hover {
+    background-color: #ddd;
+}
