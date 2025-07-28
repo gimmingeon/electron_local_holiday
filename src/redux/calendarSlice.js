@@ -8,6 +8,12 @@ const calendarSlice = createSlice({
     },
 
     reducers: {
+        setDays: (state, action) => {
+            state.days = action.payload.map((item, idx) => ({
+                [`day${idx + 1}`]: item.date,
+                member: item.members.map(m => m.name)
+            }));
+        },
         addDay(state, action) {
             const { index, day } = action.payload;
             const key = `day${index}`;
@@ -22,6 +28,20 @@ const calendarSlice = createSlice({
             if (dayItem && !dayItem.member.includes(memberName)) {
                 dayItem.member.push(memberName);
             }
+        },
+
+        resetWeek(state, action) {
+
+            const weeks = action.payload
+
+            weeks.map((week, index) => {
+                const dayKey = Object.keys(week).find(key => key.startsWith("day"));
+
+                // 현재의 day
+                const dayItem = state.days.find(item => item[dayKey]);
+
+                dayItem.member = week.member;
+            })
         },
 
         addAutoMember(state, action) {
@@ -46,10 +66,14 @@ const calendarSlice = createSlice({
             if (dayItem) {
                 dayItem.member = dayItem.member.filter(name => name !== memberName);
             }
-        }
+        },
+
+        // resetWeek(state, action) {
+        //     const {index, }
+        // }
 
     },
 });
 
-export const { addDay, addMember, resetDays, removeMember, addAutoMember } = calendarSlice.actions;
+export const { addDay, addMember, resetDays, removeMember, addAutoMember, setDays, resetWeek } = calendarSlice.actions;
 export default calendarSlice.reducer;

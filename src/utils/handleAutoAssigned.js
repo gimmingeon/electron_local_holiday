@@ -1,9 +1,12 @@
 import dayjs from "dayjs";
-import { addMember } from "../redux/calendarSlice.js";
+import { addMember, resetWeek } from "../redux/calendarSlice.js";
+import { toggleMemberWithHoliday } from "../thunk/calendarThunks.js";
 
 export default function handleAutoAssign({
-    autoReadyMember, excludeWeekdays, weekMap, weeks, dispatch
+    autoReadyMember, excludeWeekdays, weekMap, weeks, dispatch, days
 }) {
+
+    const originalWeeks = JSON.parse(JSON.stringify(weeks));
     const excludeWeekIndexes = excludeWeekdays.map(w => weekMap.indexOf(w));
     let dayNum = 0;
     let attempts = 0;
@@ -25,7 +28,13 @@ export default function handleAutoAssign({
         // index만 추출
         .map(({ index }) => index)
 
-    const shuffleDays = [...weeks].sort(() => Math.random() - 0.5);
+    const shuffleDays = weeks.map(day => {
+        const key = Object.keys(day).find(k => k.startsWith("day"));
+        return {
+            [key]: day[key],
+            member: Array.isArray(day.member) ? [...day.member] : []
+        };
+    });
 
     const moveNextDay = () => {
         dayNum++;
@@ -51,6 +60,9 @@ export default function handleAutoAssign({
 
             if (attempts > 10000) {
                 alert("자동 배정 중단: 조건을 만족할 수 없습니다.");
+
+                dispatch(resetWeek(originalWeeks));
+
                 return;
             }
 
@@ -60,6 +72,8 @@ export default function handleAutoAssign({
             const currentDate = dayjs(currentDateStr);
             const assignedMembers = currentDay.member || [];
             const memberName = autoReadyMember[i].name;
+            const memberId = autoReadyMember[i].id;
+            const currentWeekday = currentDate.day();
 
             if (connectNotHoliday > 0 && attempts <= 5000) {
 
@@ -79,6 +93,27 @@ export default function handleAutoAssign({
                     currentDate.startOf('day')
                 ].sort((a, b) => a.unix() - b.unix());
 
+                // let filteredDates = dates.filter(d => d.day() !== 0); // 일요일(0) 제외
+                // let consecutiveCount = 1;
+                // let hasConnectConflict = false;
+
+                // for (let k = 1; k < filteredDates.length; k++) {
+                //     const prev = filteredDates[k - 1];
+                //     const curr = filteredDates[k];
+
+                //     const diff = curr.diff(prev, 'day');
+
+                //     if (diff === 1) {
+                //         consecutiveCount++;
+                //         if (consecutiveCount >= connectNotHoliday) {
+                //             hasConnectConflict = true;
+                //             break;
+                //         }
+                //     } else {
+                //         consecutiveCount = 1;
+                //     }
+                // }
+
                 let consecutiveCount = 1;
                 let hasConnectConflict = false;
 
@@ -95,7 +130,6 @@ export default function handleAutoAssign({
                     }
                 }
 
-
                 // 연속 휴일 금지
                 if (hasConnectConflict) {
                     moveNextDay();
@@ -104,7 +138,7 @@ export default function handleAutoAssign({
                 }
 
                 // 개인 휴일 금지
-                if (notHoliday.includes(currentIndex)) {
+                if (notHoliday.includes(currentWeekday)) {
                     moveNextDay();
                     j--; // 같은 멤버 반복
                     continue;
@@ -125,8 +159,8 @@ export default function handleAutoAssign({
             const mates = autoReadyMember[i].mate || [];
 
             // some 함수 : 하나라도 만족하면 true를 반환한다
-            const hasMateConflict = mates.some(mateName =>
-                assignedMembers.includes(mateName)
+            const hasMateConflict = assignedMembers.some(
+                assigned => mates.includes(assigned)
             );
 
             if (hasMateConflict) {
@@ -140,16 +174,20 @@ export default function handleAutoAssign({
                 j--; // 같은 멤버 반복
                 continue;
             }
-
             const dayKey = Object.keys(currentDay).find(key => key.startsWith("day"));
             const dayIndex = Number(dayKey.replace("day", ""));
 
-            if (!shuffleDays[dayNum.s]) {
+            if (!Array.isArray(currentDay.member)) {
                 currentDay.member = [];
             }
+
+            // if (!currentDay.member) {
+            //     currentDay.member = [];
+            // }
             currentDay.member.push(memberName);
 
-            dispatch(addMember({ index: dayIndex, memberName }));
+            //dispatch(addMember({ index: dayIndex, memberName }));
+            dispatch(toggleMemberWithHoliday({ index: dayIndex, memberName, memberId }))
 
             dayNum++;
 

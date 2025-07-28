@@ -181,7 +181,8 @@ export default function MemberAutoManage({ days }) {
                                     excludeWeekdays,
                                     weekMap,
                                     weeks,
-                                    dispatch
+                                    dispatch,
+                                    days
                                 })
                             }
                         >

@@ -29,7 +29,7 @@ export default function MemberManage() {
         e.preventDefault();
 
         if (!form.name.trim() || !form.role.trim()) {
-            alert("이름과 직책을 모두 입력해주세요.");
+            alert("이름과 직책 모두 입력해주세요.");
             return;
         }
 
@@ -99,6 +99,7 @@ export default function MemberManage() {
                         }
                     />
                 </div>
+
                 <button type="submit">등록</button>
             </form>
 

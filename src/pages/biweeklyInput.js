@@ -3,6 +3,7 @@ import { useDispatch } from "react-redux";
 import '../css/biweeklyInput.css'
 import dayjs from "dayjs";
 import { addMember } from "../redux/calendarSlice.js";
+import { toggleMemberWithHoliday } from "../thunk/calendarThunks.js";
 
 export default function BiweeklyInput({ days, members }) {
 
@@ -15,6 +16,8 @@ export default function BiweeklyInput({ days, members }) {
     // const [assignMember, setAssignMember] = useState([]);
     const [oneAssignMember, setOneAssignMember] = useState([]);
     const [twoAssignMember, setTwoAssignMember] = useState([]);
+    const [oneAssignMemberId, setOneAssignMemberId] = useState([]);
+    const [twoAssignMemberId, setTwoAssignMemberId] = useState([]);
 
     if (!members || members.length === 0) {
         return <div>멤버가 없습니다.</div>
@@ -42,24 +45,28 @@ export default function BiweeklyInput({ days, members }) {
     }
 
     // 첫번째 멤버 추가
-    const handlePlusOneAssignMember = (memberName) => {
+    const handlePlusOneAssignMember = (memberName, memberId) => {
         const isAlreadyAssignMember = oneAssignMember.includes(memberName);
 
         if (!isAlreadyAssignMember) {
             setOneAssignMember([...oneAssignMember, memberName]);
+            setOneAssignMemberId([...oneAssignMemberId, memberId])
         } else {
             setOneAssignMember(oneAssignMember.filter(name => name !== memberName));
+            setOneAssignMemberId(oneAssignMemberId.filter(id => id !== memberId))
         }
     }
 
     // 두번째 멤버 추가
-    const handlePlustwoAssignMember = (memberName) => {
+    const handlePlustwoAssignMember = (memberName, memberId) => {
         const isAlreadyAssignMember = twoAssignMember.includes(memberName);
 
         if (!isAlreadyAssignMember) {
             setTwoAssignMember([...twoAssignMember, memberName]);
+            setTwoAssignMemberId([...oneAssignMemberId, memberId])
         } else {
             setTwoAssignMember(twoAssignMember.filter(name => name !== memberName));
+            setTwoAssignMemberId(oneAssignMemberId.filter(id => id !== memberId))
         }
     }
 
@@ -88,14 +95,16 @@ export default function BiweeklyInput({ days, members }) {
             if (index % 2 === 0) {
                 for (let i = 0; i < week.length; i++) {
                     for (let j = 0; j < oneAssignMember.length; j++) {
-                        dispatch(addMember({ index: week[i], memberName: oneAssignMember[j] }));
+                        // dispatch(addMember({ index: week[i], memberName: oneAssignMember[j] }));
+                        dispatch(toggleMemberWithHoliday({ index: week[i], memberName: oneAssignMember[j], memberId: oneAssignMemberId[j] }));
                     }
 
                 }
             } else {
                 for (let i = 0; i < week.length; i++) {
                     for (let j = 0; j < twoAssignMember.length; j++) {
-                        dispatch(addMember({ index: week[i], memberName: twoAssignMember[j] }))
+                        // dispatch(addMember({ index: week[i], memberName: twoAssignMember[j] }))
+                        dispatch(toggleMemberWithHoliday({ index: week[i], memberName: twoAssignMember[j], memberId: twoAssignMemberId[j] }));
                     }
                 }
             }
@@ -150,10 +159,10 @@ export default function BiweeklyInput({ days, members }) {
                         </div>
 
                         <div className="group-buttons">
-                            <div className="group-button1" onClick={() => handlePlusOneAssignMember(member.name)}>
+                            <div className="group-button1" onClick={() => handlePlusOneAssignMember(member.name, member.id)}>
                                 첫번째 그룹
                             </div>
-                            <div className="group-button2" onClick={() => handlePlustwoAssignMember(member.name)}>
+                            <div className="group-button2" onClick={() => handlePlustwoAssignMember(member.name, member.id)}>
                                 두번째 그룹
                             </div>
                         </div>

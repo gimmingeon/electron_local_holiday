@@ -82,9 +82,36 @@ const memberSlice = createSlice({
                     mate: mateNames
                 };
             });
+        },
+
+        minusMonthHoliday: (state, action) => {
+            const memberId = action.payload;
+            const targetMember = state.members.find((m) => m.id === memberId);
+
+            if (targetMember) {
+                targetMember.monthHoliday -= 1;
+            }
+        },
+
+        plusMonthHoliday: (state, action) => {
+            const memberId = action.payload;
+            const targetMember = state.members.find((m) => m.id === memberId);
+
+            if (targetMember) {
+                targetMember.monthHoliday += 1;
+            }
         }
     }
 });
 
-export const { setMember, updateForm, addMember, resetForm, mergeMemberWithCondition, mergeMemberWithConditionMate } = memberSlice.actions;
+export const {
+    setMember,
+    updateForm,
+    addMember,
+    resetForm,
+    mergeMemberWithCondition,
+    mergeMemberWithConditionMate,
+    minusMonthHoliday,
+    plusMonthHoliday
+} = memberSlice.actions;
 export default memberSlice.reducer;

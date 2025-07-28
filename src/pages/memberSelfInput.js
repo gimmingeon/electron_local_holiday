@@ -1,12 +1,14 @@
 import { useDispatch } from "react-redux";
 import { addMember, removeMember } from "../redux/calendarSlice.js";
+import "../css/memberSelfInput.css"
+import { minusMonthHoliday, plusMonthHoliday } from "../redux/memberSlice.js";
 
 export default function MemberSelfInput({ selectedDayInfo, members, setSelectedDayInfo }) {
 
     const dispatch = useDispatch();
 
     // 멤버 넣기
-    const handleInputMember = (memberName, dateIndex) => {
+    const handleInputMember = (memberName, dateIndex, memberId) => {
         //중복방지 및 배정된 인원에 바로 추가
         if (!selectedDayInfo.members.includes(memberName)) {
             dispatch(addMember({ index: dateIndex + 1, memberName }));
@@ -14,6 +16,8 @@ export default function MemberSelfInput({ selectedDayInfo, members, setSelectedD
                 ...prev,
                 members: [...prev.members, memberName],
             }));
+
+            dispatch(minusMonthHoliday(memberId));
 
             // 멤버 내부에 있으면 제거후 수정
         } else {
@@ -23,6 +27,8 @@ export default function MemberSelfInput({ selectedDayInfo, members, setSelectedD
                 ...prev,
                 members: prev.members.filter(name => name !== memberName),
             }))
+
+            dispatch(plusMonthHoliday(memberId));
         }
 
     }
@@ -38,15 +44,15 @@ export default function MemberSelfInput({ selectedDayInfo, members, setSelectedD
                 {members.length === 0 ? (
                     <p>멤버가 없습니다.</p>
                 ) : (
-                    <ul>
+                    <ul className="selfInput-member-list">
                         {members.map((member) => {
                             const isSelected = selectedDayInfo.members.includes(member.name);
 
                             return (
                                 <div
                                     key={member.id}
-                                    onClick={() => handleInputMember(member.name, selectedDayInfo.index)}
-                                    className={`sidebar-member ${isSelected ? "selected-member" : ""}`}
+                                    onClick={() => handleInputMember(member.name, selectedDayInfo.index, member.id)}
+                                    className={`selfInput-sidebar-member ${isSelected ? "selfInput-selected-member" : ""}`}
                                 >
                                     <div>이름 : {member.name} {isSelected && "✅"}</div>
                                     <div>직책 : {member.role}</div>

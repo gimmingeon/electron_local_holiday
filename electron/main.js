@@ -22,7 +22,9 @@ function createWindow() {
 
     mainWindow.loadFile(`${path.join(__dirname, '../build/index.html')}`);
     // mainWindow.loadURL('http://localhost:3000');
-    mainWindow.webContents.openDevTools();
+
+    // 개발자 모드
+    // mainWindow.webContents.openDevTools();
 }
 
 // function startBackend() {

@@ -118,20 +118,6 @@
     top: 16px;
 }
 
-.sidebar-member {
-    border-radius: 8px;
-    border: 1px solid black;
-    padding-bottom: 3px;
-    padding-left: 11px;
-    cursor: pointer;
-    transition: background 0.2s ease;
-}
-
-.sidebar-member:hover {
-    background-color: #ddd;
-    background-color: orange;
-}
-
 .modal-header {
     font-size: 24px;
     font-weight: bold;
@@ -144,19 +130,6 @@
 
 .modal-members h2 {
     margin-bottom: 8px;
-}
-
-.sidebar-member {
-    border: 1px solid #ccc;
-    padding: 8px;
-    margin: 4px 0;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: background-color 0.2s ease;
-}
-
-.sidebar-member:hover {
-    background-color: #f3f3f3;
 }
 
 .selected-member {
@@ -202,7 +175,7 @@
 
 /* 고정 사이드바 스타일 */
 .calendar-sidebar-fixed {
-    width: 180px;
+    width: 170px;
     background-color: #ffffff;
     border-right: 1px solid #ddd;
     padding: 24px 16px;
@@ -224,11 +197,11 @@
     padding: 10px 8px;
     cursor: pointer;
     border-radius: 6px;
-    transition: background-color 0.2s;
+    transition: none
 }
 
 .sidebar-menu li:hover {
-    background-color: #f0f0f0;
+    background-color: none;
 }
 
 /* 캘린더 본문 */
@@ -236,4 +209,29 @@
     flex: 1;
     padding: 24px;
     overflow-y: auto;
+}
+
+.calendar-sidebar-right {
+    width: 200px;
+    background-color: #ffffff;
+    border-left: 1px solid #ddd;
+    padding: 24px 16px;
+    box-shadow: -2px 0 6px rgba(0, 0, 0, 0.05);
+    overflow-y: auto;
+    max-height: 100vh;
+}
+
+.calendar-layout {
+    display: flex;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.edit-box {
+    margin-top: 5px;
+}
+
+.edit-box input {
+    width: 60px;
+    padding: 2px;
 }

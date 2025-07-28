@@ -1,33 +1,68 @@
 import dayjs from "dayjs";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { addDay, addMember, resetDays } from "../redux/calendarSlice.js";
+import { addDay, addMember, resetDays, setDays } from "../redux/calendarSlice.js";
 import Modal from "react-modal";
 import "../css/calendar.css"
 import axios from "axios";
-import { setMember } from "../redux/memberSlice.js";
+import { minusMonthHoliday, setMember } from "../redux/memberSlice.js";
 import MemberAutoInput from "./memberAutoInput.js";
 import MemberSelfInput from "./memberSelfInput.js";
 import * as XLSX from 'xlsx';
-import { useNavigate } from "react-router-dom";
 import BiweeklyInput from "./biweeklyInput.js";
+import HolidayDelete from "./holidayDelete.js";
 
 export default function Calendar() {
 
 
     const dispatch = useDispatch();
-    let navigate = useNavigate();
 
     const days = useSelector((state) => state.calendar.days)
 
     // 오늘 날짜
     const [currentDate, setCurrentDate] = useState(dayjs());
-    const startOfMonth = currentDate.startOf("month"); // 1일일
+    const startOfMonth = currentDate.startOf("month"); // 1일
     const startDay = startOfMonth.day(); // 일요일은 0, 월요일은 1 ...
     const daysInMonth = currentDate.daysInMonth(); // 30일 또는 31일(28일)
+    const [holidayCount, setHolidayCount] = useState({});
+
+    // 모달 창 열고 닫기
+    const [modalIsOpen, setModalIsOpen] = useState(false);
+    const [autoModalIsOpen, setAutoModalIsOpen] = useState(false);
+    const [biAutoModalIsOpen, setBiAutoModalIsOpen] = useState(false);
+    const [saveMonthModalIsOpen, setSaveMonthModalIsOpen] = useState(false);
+
+    // 날짜의 정보와 멤버
+    const [selectedDayInfo, setSelectedDayInfo] = useState({ date: '', members: [], index: '' });
+    const [selectedMember, setSelectedMember] = useState(null);
+
+    const form = useSelector((state) => state.member.form);
+    const members = useSelector((state) => state.member.members);
+
+    const handleGetHoliday = async () => {
+        try {
+            const response = await axios.get(`http://localhost:4000/holiday/days?year=${currentDate.year()}&month=${currentDate.month() + 1}`)
+
+            if (response.data.length == 0) {
+                alert("저장된 휴일이 없습니다.")
+            } else {
+
+                dispatch(setDays(response.data));
+                const memberIds = response.data.flatMap((item, index) => item.members.map(member => member.id))
+
+                for (let i = 0; i < memberIds.length; i++) {
+                    dispatch(minusMonthHoliday(memberIds[i]));
+                }
+            }
+
+        } catch (error) {
+            alert("휴일 조회 실패");
+        }
+    }
 
     useEffect(() => {
         dispatch(resetDays());
+
         for (let i = 0; i < daysInMonth; i++) {
             const day = i + 1;
             dispatch(addDay({
@@ -36,25 +71,57 @@ export default function Calendar() {
             }));
         }
 
-    }, [dispatch, currentDate, daysInMonth])
+    }, [dispatch, currentDate, daysInMonth]);
 
-    // 모달 창 열고 닫기
-    const [modalIsOpen, setModalIsOpen] = useState(false);
-    const [autoModalIsOpen, setAutoModalIsOpen] = useState(false);
-    const [biAutoModalIsOpen, setBiAutoModalIsOpen] = useState(false);
-    // 날짜의 정보와 멤버
-    const [selectedDayInfo, setSelectedDayInfo] = useState({ date: '', members: [], index: '' });
+    const handleSaveHoliday = async () => {
+        try {
+            const response = await axios.post("http://localhost:4000/holiday", days);
+            alert(response.data.message);
 
-    const form = useSelector((state) => state.member.form);
-    const members = useSelector((state) => state.member.members);
+        } catch (error) {
+            alert(error.response?.data?.message || "휴일 저장에 실패했습니다.");
+        }
+    }
+
+    // 한달 휴일 갯수 변경
+    const handleUpdateCount = async (memberId) => {
+        try {
+
+            const value = holidayCount[memberId];
+            const parsedValue = value !== undefined ? Number(value) : 0;
+
+            await axios.patch("http://localhost:4000/member", {
+                id: memberId,
+                updateHoliday: parsedValue
+            });
+            setHolidayCount(prev => ({ ...prev, [memberId]: "" }));
+
+            window.location.reload();
+
+        } catch (error) {
+            alert(error.response?.data?.message || "휴일 갯수 수정 실패")
+        }
+    }
+
+    const handleGetMember = async () => {
+        try {
+            const response = await axios.get('http://localhost:4000/member');
+            dispatch(setMember(response.data));
+
+        } catch (error) {
+            console.log('멤버 불러오기 실패', error);
+        }
+    };
 
     // 다음달로 이동
-    const handleaddMonth = () => {
+    const handleaddMonth = async () => {
         const result = window.confirm("다음달로 이동하면 저장해둔 일정이 삭제됩니다. \n계속하시겠습니까?")
 
         if (result) {
             setCurrentDate(currentDate.add(1, "month"));
         }
+        handleGetMember();
+
     }
 
     // 이전 달로 이동
@@ -64,6 +131,8 @@ export default function Calendar() {
         if (result) {
             setCurrentDate(currentDate.subtract(1, "month"));
         }
+
+        handleGetMember();
     }
 
     const blanks = Array.from({ length: startDay }, (_, i) => <div key={`b-${i}`} className="p-2" />);
@@ -72,22 +141,9 @@ export default function Calendar() {
 
     // 멤버 불러오는 것
     useEffect(() => {
-        const handleGetMember = async () => {
-            try {
-                const response = await axios.get('http://localhost:4000/member');
-                dispatch(setMember(response.data));
-            } catch (error) {
-                console.log('멤버 불러오기 실패', error);
-            }
-        };
 
         handleGetMember();
     }, [dispatch]);
-
-    useEffect(() => {
-        console.log('업데이트된 days:', days);
-    }, [days]);
-
 
     // 모달 열기
     const handleDateClick = (date, members, date_index) => {
@@ -106,6 +162,11 @@ export default function Calendar() {
     const handleBiWeekClick = () => {
         // 모달창을 염
         setBiAutoModalIsOpen(true);
+    };
+
+    const handleSaveMonthClick = () => {
+        // 모달창을 염
+        setSaveMonthModalIsOpen(true);
     };
 
     // 엑셀로 저장
@@ -153,19 +214,18 @@ export default function Calendar() {
         XLSX.writeFile(workbook, filename);
     };
 
-    console.log(days);
-
     return (
         <div className="calendar-layout">
             {/* 사이드바 */}
             <div className="calendar-sidebar-fixed">
                 <h2 className="sidebar-title">📅 캘린더</h2>
                 <ul className="sidebar-menu">
-                    <li onClick={() => navigate('/')}>🏠 홈</li>
-                    <li onClick={() => navigate('/calendar/member')}>👤 멤버 관리</li>
                     <li onClick={handleAutoClick}>📆 자동 휴일 배정</li>
                     <li onClick={handleBiWeekClick}>📆 격주 휴일 배정</li>
                     <li onClick={() => exportDaysExcel(days, currentDate, startOfMonth.day())}>📊 엑셀 저장</li>
+                    <li onClick={handleSaveHoliday}>✔️휴일 저장하기</li>
+                    <li onClick={handleGetHoliday}>✔️휴일 불러오기</li>
+                    <li onClick={handleSaveMonthClick}>✔️ 휴일 삭제하기</li>
                 </ul>
             </div>
 
@@ -199,6 +259,7 @@ export default function Calendar() {
                                 selectedDayInfo={selectedDayInfo}
                                 members={members}
                                 setSelectedDayInfo={setSelectedDayInfo}
+
                             />
                             <button onClick={() => setModalIsOpen(false)}>닫기</button>
                         </Modal>
@@ -226,6 +287,15 @@ export default function Calendar() {
 
                         </Modal>
 
+                        <Modal
+                            isOpen={saveMonthModalIsOpen}
+                            onRequestClose={() => setSaveMonthModalIsOpen(false)}
+                            contentLabel="휴일 삭제"
+                            overlayClassName="modal-overlay"
+                            className="custom-modal-content"
+                        >
+                            <HolidayDelete />
+                        </Modal>
 
 
                         {/* 캘린더 */}
@@ -235,8 +305,8 @@ export default function Calendar() {
                             const members = item.member;
                             const date_index = index;
 
-                            const weekDay = (startDay + index) % 7;
-                            const weekNumber = Math.floor((startDay + index) / 7) + 1;
+                            // const weekDay = (startDay + index) % 7;
+                            // const weekNumber = Math.floor((startDay + index) / 7) + 1;
 
                             return (
                                 <>
@@ -254,6 +324,48 @@ export default function Calendar() {
                         })}
                     </div>
                 </div>
+            </div>
+
+
+            <div className="calendar-sidebar-right">
+                <h2 className="sidebar-title">📌 월 휴일</h2>
+                <ul className="sidebar-menu">
+                    {members.map((member, index) => (
+                        <li
+                            key={index}
+                            onClick={() =>
+                                setSelectedMember(prevIndex =>
+                                    prevIndex === index ? null : index
+                                )
+                            }
+                        >
+                            <span style={{ color: member.monthHoliday < 0 ? 'red' : "black" }}>
+                                {member.name} - 휴일: {member.monthHoliday}개
+                            </span>
+
+
+                            {selectedMember === index && (
+                                <div className="edit-box" onClick={(e) => e.stopPropagation()} >
+                                    <input
+                                        type="number"
+                                        value={holidayCount[member.id] || 0}
+                                        onChange={(e) => setHolidayCount(prev => ({
+                                            ...prev,
+                                            [member.id]: e.target.value
+                                        })
+
+                                        )}
+                                    />
+
+                                    <button
+                                        onClick={() => handleUpdateCount(member.id)}
+                                    >등록</button>
+                                </div>
+                            )}
+
+                        </li>
+                    ))}
+                </ul>
             </div>
         </div>
     );

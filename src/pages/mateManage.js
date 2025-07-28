@@ -90,18 +90,6 @@ export default function MateManage() {
         <div className="mate-container">
             <h2 className="section-title">짝 만들기</h2>
 
-            <div className="selected-mates">
-                {registeMate.map((mateId) => {
-                    const member = members.find((m) => m.id === mateId);
-                    return (
-                        <div key={mateId} className="selected-mate-card">
-                            {member?.name || mateId}
-                        </div>
-                    );
-                })}
-
-            </div>
-
             <button className="register-button" onClick={handleRegisterMate}>
                 짝 등록하기
             </button>
@@ -118,6 +106,18 @@ export default function MateManage() {
                         {member.name}
                     </div>
                 ))}
+            </div>
+
+            <div className="selected-mates">
+                {registeMate.map((mateId) => {
+                    const member = members.find((m) => m.id === mateId);
+                    return (
+                        <div key={mateId} className="selected-mate-card">
+                            {member?.name || mateId}
+                        </div>
+                    );
+                })}
+
             </div>
 
 
