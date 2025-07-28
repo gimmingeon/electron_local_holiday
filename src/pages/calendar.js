@@ -25,6 +25,7 @@ export default function Calendar() {
     const startDay = startOfMonth.day(); // 일요일은 0, 월요일은 1 ...
     const daysInMonth = currentDate.daysInMonth(); // 30일 또는 31일(28일)
     const [holidayCount, setHolidayCount] = useState({});
+    const [importData, setImportData] = useState(false);
 
     // 모달 창 열고 닫기
     const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -47,18 +48,27 @@ export default function Calendar() {
                 alert("저장된 휴일이 없습니다.")
             } else {
 
-                dispatch(setDays(response.data));
-                const memberIds = response.data.flatMap((item, index) => item.members.map(member => member.id))
-
-                for (let i = 0; i < memberIds.length; i++) {
-                    dispatch(minusMonthHoliday(memberIds[i]));
+                if (!importData) {
+                    dispatch(setDays(response.data));
+                    const memberIds = response.data.flatMap((item, index) => item.members.map(member => member.id))
+                    for (let i = 0; i < memberIds.length; i++) {
+                        dispatch(minusMonthHoliday(memberIds[i]));
+                    }
+                    setImportData(true);
+                } else {
+                    alert("이미 데이터를 불러왔습니다.")
                 }
+
             }
 
         } catch (error) {
             alert("휴일 조회 실패");
         }
     }
+
+    useEffect(() => {
+        setImportData(false);
+    }, [currentDate.year(), currentDate.month()])
 
     useEffect(() => {
         dispatch(resetDays());
@@ -103,6 +113,10 @@ export default function Calendar() {
         }
     }
 
+    const handleReset = () => {
+        window.location.reload();
+    }
+
     const handleGetMember = async () => {
         try {
             const response = await axios.get('http://localhost:4000/member');
@@ -115,22 +129,18 @@ export default function Calendar() {
 
     // 다음달로 이동
     const handleaddMonth = async () => {
-        const result = window.confirm("다음달로 이동하면 저장해둔 일정이 삭제됩니다. \n계속하시겠습니까?")
 
-        if (result) {
-            setCurrentDate(currentDate.add(1, "month"));
-        }
+        setCurrentDate(currentDate.add(1, "month"));
+
         handleGetMember();
 
     }
 
     // 이전 달로 이동
     const handlesubtractMonth = () => {
-        const result = window.confirm("이전달로 이동하면 저장해둔 일정이 삭제됩니다. \n계속하시겠습니까?")
 
-        if (result) {
-            setCurrentDate(currentDate.subtract(1, "month"));
-        }
+        setCurrentDate(currentDate.subtract(1, "month"));
+
 
         handleGetMember();
     }
@@ -226,6 +236,7 @@ export default function Calendar() {
                     <li onClick={handleSaveHoliday}>✔️휴일 저장하기</li>
                     <li onClick={handleGetHoliday}>✔️휴일 불러오기</li>
                     <li onClick={handleSaveMonthClick}>✔️ 휴일 삭제하기</li>
+                    <li onClick={handleReset}>📆 새로고침</li>
                 </ul>
             </div>
 
@@ -330,41 +341,44 @@ export default function Calendar() {
             <div className="calendar-sidebar-right">
                 <h2 className="sidebar-title">📌 월 휴일</h2>
                 <ul className="sidebar-menu">
-                    {members.map((member, index) => (
-                        <li
-                            key={index}
-                            onClick={() =>
-                                setSelectedMember(prevIndex =>
-                                    prevIndex === index ? null : index
-                                )
-                            }
-                        >
-                            <span style={{ color: member.monthHoliday < 0 ? 'red' : "black" }}>
-                                {member.name} - 휴일: {member.monthHoliday}개
-                            </span>
+                    {members.length === 0 ? (<li>멤버가 없습니다</li>) : (
+                        members.map((member, index) => (
+                            <li
+                                key={index}
+                                onClick={() =>
+                                    setSelectedMember(prevIndex =>
+                                        prevIndex === index ? null : index
+                                    )
+                                }
+                            >
+                                <span style={{ color: member.monthHoliday < 0 ? 'red' : "black" }}>
+                                    {member.name} - 휴일: {member.monthHoliday}개
+                                </span>
 
 
-                            {selectedMember === index && (
-                                <div className="edit-box" onClick={(e) => e.stopPropagation()} >
-                                    <input
-                                        type="number"
-                                        value={holidayCount[member.id] || 0}
-                                        onChange={(e) => setHolidayCount(prev => ({
-                                            ...prev,
-                                            [member.id]: e.target.value
-                                        })
+                                {selectedMember === index && (
+                                    <div className="edit-box" onClick={(e) => e.stopPropagation()} >
+                                        <input
+                                            type="number"
+                                            value={holidayCount[member.id] || 0}
+                                            onChange={(e) => setHolidayCount(prev => ({
+                                                ...prev,
+                                                [member.id]: e.target.value
+                                            })
 
-                                        )}
-                                    />
+                                            )}
+                                        />
 
-                                    <button
-                                        onClick={() => handleUpdateCount(member.id)}
-                                    >등록</button>
-                                </div>
-                            )}
+                                        <button
+                                            onClick={() => handleUpdateCount(member.id)}
+                                        >등록</button>
+                                    </div>
+                                )}
 
-                        </li>
-                    ))}
+                            </li>
+                        ))
+                    )}
+
                 </ul>
             </div>
         </div>

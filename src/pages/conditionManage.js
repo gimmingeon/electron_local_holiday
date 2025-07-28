@@ -36,23 +36,26 @@ export default function ConditionManage() {
 
     return (
         <div className="condition-container">
-            <div>
-                {members.map((member) => {
-                    return (
-                        <div key={member.id} className="memberCondition-card" onClick={() => handleOpenModal(member)}>
-                            <div className="member-name">이름: {member.name}</div>
-                            {member.condition ? (
-                                <div className="member-condition">
-                                    <div><strong>휴일 금지:</strong> {member.condition.notHoliday.map(num => weekMap[+num]).join(', ')}</div>
-                                    <div><strong>휴일 연속 금지:</strong> {member.condition.connectNotHoliday}</div>
-                                </div>
-                            ) : (
-                                <div className="no-condition">조건 없음</div>
-                            )}
-                        </div>
-                    )
-                })}
-            </div>
+            {members.length === 0 ? (<h4>멤버가 없습니다</h4>) : (
+                <div>
+                    {members.map((member) => {
+                        return (
+                            <div key={member.id} className="memberCondition-card" onClick={() => handleOpenModal(member)}>
+                                <div className="member-name">이름: {member.name}</div>
+                                {member.condition ? (
+                                    <div className="member-condition">
+                                        <div><strong>휴일 금지:</strong> {member.condition.notHoliday.map(num => weekMap[+num]).join(', ')}</div>
+                                        <div><strong>휴일 연속 금지:</strong> {member.condition.connectNotHoliday}</div>
+                                    </div>
+                                ) : (
+                                    <div className="no-condition">조건 없음</div>
+                                )}
+                            </div>
+                        )
+                    })}
+                </div>
+            )}
+
 
             <Modal
                 isOpen={modalIsOpen}

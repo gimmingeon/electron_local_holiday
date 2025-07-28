@@ -96,17 +96,20 @@ export default function MateManage() {
 
             <h3 className="section-title">멤버 목록</h3>
 
-            <div className="member-list">
-                {members.map((member) => (
-                    <div
-                        key={member.id}
-                        className={`memberMate-card ${registeMate.includes(member.id) ? "selected" : ""}`}
-                        onClick={() => handlePlusRegisteMate(member)}
-                    >
-                        {member.name}
-                    </div>
-                ))}
-            </div>
+            {members.length === 0 ? (<li>멤버가 없습니다</li>) :
+                (<div className="member-list">
+                    {members.map((member) => (
+                        <div
+                            key={member.id}
+                            className={`memberMate-card ${registeMate.includes(member.id) ? "selected" : ""}`}
+                            onClick={() => handlePlusRegisteMate(member)}
+                        >
+                            {member.name}
+                        </div>
+                    ))}
+                </div>)}
+
+
 
             <div className="selected-mates">
                 {registeMate.map((mateId) => {
