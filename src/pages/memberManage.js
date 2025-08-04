@@ -1,13 +1,16 @@
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { setMember, updateForm, addMember, resetForm } from "../redux/memberSlice.js";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import '../css/memberManage.css'
 import { useNavigate } from "react-router-dom";
 
 export default function MemberManage() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
+
+    const nameInputRef = useRef(null);
+    const roleInputRef = useRef(null); // 직책 입력창용 ref
 
     const form = useSelector((state) => state.member.form);
     const members = useSelector((state) => state.member.members);
@@ -29,7 +32,9 @@ export default function MemberManage() {
         e.preventDefault();
 
         if (!form.name.trim() || !form.role.trim()) {
-            alert("이름과 직책 모두 입력해주세요.");
+            // alert();
+            window.electronApi.showAlert("이름과 직책 모두 입력해주세요.");
+
             return;
         }
 
@@ -38,11 +43,16 @@ export default function MemberManage() {
 
             dispatch(addMember(response.data));
             dispatch(resetForm());
-            alert("멤버가 등록되었습니다.");
-            console.log("멤버 등록")
+
+            setTimeout(() => {
+                nameInputRef.current?.focus();
+            }, 0);
+            // alert();
+            window.electronApi.showAlert("멤버가 등록되었습니다.");
         } catch (error) {
             console.error("멤버 등록 실패", error);
-            alert("멤버 등록에 실패했습니다.");
+            //  alert();
+            window.electronApi.showAlert("멤버 등록에 실패했습니다.");
         }
     };
 
@@ -53,9 +63,24 @@ export default function MemberManage() {
             })
 
             dispatch(setMember(members.filter(member => member.id !== id)));
-            alert(response.data.messege || "멤버가 삭제됬습니다.");
+            // alert();
+            window.electronApi.showAlert(response.data.messege || "멤버가 삭제됬습니다.");
         } catch (error) {
             console.error("멤버 삭제 실패", error);
+        }
+    }
+
+    const handleKeyDownName = (e) => {
+        if (e.key === "Enter") {
+            e.preventDefault();
+            roleInputRef.current?.focus(); // 직책으로 이동
+        }
+    }
+
+    const handleKeyDownRole = (e) => {
+        if (e.key === "Enter") {
+            e.preventDefault();
+            handleRegisterMember(e);
         }
     }
 
@@ -83,20 +108,24 @@ export default function MemberManage() {
                     <label>이름</label>
                     <input
                         type="text"
+                        ref={nameInputRef}
                         value={form.name}
                         onChange={(e) =>
                             dispatch(updateForm({ field: 'name', value: e.target.value }))
                         }
+                        onKeyDown={handleKeyDownName}
                     />
                 </div>
                 <div>
                     <label>직책</label>
                     <input
                         type="text"
+                        ref={roleInputRef}
                         value={form.role}
                         onChange={(e) =>
                             dispatch(updateForm({ field: 'role', value: e.target.value }))
                         }
+                        onKeyDown={handleKeyDownRole}
                     />
                 </div>
 

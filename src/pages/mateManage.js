@@ -17,7 +17,7 @@ export default function MateManage() {
             const response = await axios.get('http://localhost:4000/mate');
             dispatch(setMate(response.data));
         } catch (error) {
-            alert("짝 조회 실패");
+            // alert("짝 조회 실패");
         }
     };
 
@@ -29,7 +29,7 @@ export default function MateManage() {
                 const response = await axios.get('http://localhost:4000/member');
                 dispatch(setMember(response.data));
             } catch (error) {
-                alert("멤버 조회 실패");
+                // alert("멤버 조회 실패");
             }
         }
 
@@ -42,7 +42,8 @@ export default function MateManage() {
     const handleRegisterMate = async () => {
 
         if (!(registeMate.length == 2)) {
-            alert("등록할 짝은 2명이야 합니다.");
+            // alert("등록할 짝은 2명이야 합니다.");
+            window.electronApi.showAlert("등록할 짝은 2명이야 합니다.");
             return;
         }
         try {
@@ -52,11 +53,15 @@ export default function MateManage() {
             }
             );
 
-            alert(response.data.message);
+            // alert(response.data.message);
+            window.electronApi.showAlert(response.data.message);
+
             setRegisteMate([]); // 등록 후 상태 초기화
             handleGetMate();
         } catch (error) {
-            alert(error.response?.data?.message || "짝 등록에 실패했습니다.");
+            // alert();
+            window.electronApi.showAlert(error.response?.data?.message || "짝 등록에 실패했습니다.");
+
         }
 
     }
@@ -66,7 +71,8 @@ export default function MateManage() {
         if (registeMate.includes(member.id)) {
             setRegisteMate(registeMate.filter(id => id !== member.id));
         } else if (registeMate.length >= 2) {
-            alert("짝은 2명씩 가능합니다.")
+            // alert()
+            window.electronApi.showAlert("짝은 2명씩 가능합니다.");
             return;
         } else {
             setRegisteMate([...registeMate, member.id])
@@ -79,10 +85,14 @@ export default function MateManage() {
             const response = await axios.delete('http://localhost:4000/mate', {
                 data: { id: mate }
             });
-            alert(response.data.message);
+            // alert();
+            window.electronApi.showAlert(response.data.message);
+
             handleGetMate();
         } catch (error) {
-            alert(error.response?.data?.message || "짝 삭제에 실패했습니다.");
+            // alert();
+            window.electronApi.showAlert(error.response?.data?.message || "짝 삭제에 실패했습니다.");
+
         }
     }
 

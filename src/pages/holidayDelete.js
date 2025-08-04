@@ -13,7 +13,7 @@ export default function HolidayDelete() {
 
                 setSaveMonth(response.data);
             } catch (error) {
-                alert(error.response?.data?.message || "휴일 조회에 실패했습니다.")
+                // alert(error.response?.data?.message || "휴일 조회에 실패했습니다.")
             }
         }
         handleGetMonth();
@@ -24,12 +24,14 @@ export default function HolidayDelete() {
             await axios.delete('http://localhost:4000/holiday', {
                 data: { yearMonth: month }
             })
-            alert(`${month} 휴일 삭제 성공`);
+            // alert(`${month} 휴일 삭제 성공`);
+            window.electronApi.showAlert(`${month} 휴일 삭제 성공`);
 
             const response = await axios.get('http://localhost:4000/holiday/month');
             setSaveMonth(response.data);
         } catch (error) {
-            alert(error.response?.data?.message || "휴일 삭제에 실패했습니다.")
+            // alert(error.response?.data?.message || "휴일 삭제에 실패했습니다.");
+            window.electronApi.showAlert(error.response?.data?.message || "휴일 삭제에 실패했습니다.");
         }
     }
 

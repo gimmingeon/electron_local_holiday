@@ -1,22 +1,29 @@
 import axios from "axios";
 import { useState } from "react";
 import "../css/conditionAssign.css"
+import { useSelector } from "react-redux";
 
-export default function ConditionInput({ member }) {
+export default function ConditionInputFullMember() {
 
     const [notHoliday, setNotHoliday] = useState([]);
     const [connectNotHoliday, setConnectNotHoliday] = useState(0);
+    const members = useSelector((state) => state.member.members);
 
     const handleRegisterCondition = async () => {
 
         try {
-            const response = await axios.post("http://localhost:4000/condition", {
-                memberId: member.id,
-                notHoliday: notHoliday,
-                connectNotHoliday: connectNotHoliday,
-            });
+
+            const posts = members.map((member) => {
+                axios.post("http://localhost:4000/condition", {
+                    memberId: member.id,
+                    notHoliday: notHoliday,
+                    connectNotHoliday: connectNotHoliday,
+                });
+            })
+
+            await Promise.all(posts);
+
             // alert(response.data.message || "조건 등록");
-            window.electronApi.showAlert(response.data.message || "조건 등록");
 
             setNotHoliday([]);
             setConnectNotHoliday(0)
@@ -41,23 +48,9 @@ export default function ConditionInput({ member }) {
         }
     }
 
-    const handleDeleteCondition = async () => {
-        try {
-            const response = await axios.delete("http://localhost:4000/condition", {
-                data: { id: member.condition.id }
-            });
-            // alert(response.data.message);
-            window.electronApi.showAlert(response.data.message);
-            window.location.reload();
-        } catch (error) {
-            // alert(error.response?.data?.message || "조건 삭제에 실패했습니다.");
-            window.electronApi.showAlert(error.response?.data?.message || "조건 삭제 실패");
-        }
-    }
-
     return (
         <div className="conditionAssign-form">
-            <div className="conditionAssign-member-name">이름 : {member.name}</div>
+            <div className="conditionAssign-member-name">전체 멤버</div>
 
 
             <label>휴일 금지</label>
@@ -88,8 +81,6 @@ export default function ConditionInput({ member }) {
             />
 
             <button onClick={handleRegisterCondition}>등록</button>
-
-            <button onClick={handleDeleteCondition}>조건 삭제</button>
         </div>
 
     )

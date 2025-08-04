@@ -1,4 +1,4 @@
-const { app, BrowserWindow } = require('electron');
+const { app, BrowserWindow, ipcMain, dialog } = require('electron');
 const path = require('path');
 const { spawn } = require('child_process');
 const fs = require('fs')
@@ -144,4 +144,17 @@ app.on('window-all-closed', function () {
 
 app.on('quit', () => {
     if (backendProcess) backendProcess.kill();
+});
+
+ipcMain.handle("show-alert", async (event, message) => {
+    await dialog.showMessageBox({
+        type: 'info',
+        message,
+        buttons: ["확인"]
+    })
+})
+
+ipcMain.on('showDialog', async (event, arg) => {
+    const options = { message: 'Sample message', buttons: ['Yes', 'No'] };
+    dialog.showMessageBox(mainWindow, options);
 });

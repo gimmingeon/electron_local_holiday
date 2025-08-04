@@ -19,17 +19,16 @@ export default function MemberAutoManage({ days }) {
     useEffect(() => {
         const handleGetMember = async () => {
             try {
-                const memberRes = await axios.get('http://localhost:4000/member');
                 const conditionRes = await axios.get('http://localhost:4000/condition');
                 const mateRes = await axios.get('http://localhost:4000/mate');
 
                 dispatch(mergeMemberWithConditionMate({
-                    members: memberRes.data,
+                    members: members,
                     conditions: conditionRes.data,
                     mates: mateRes.data
                 }));
             } catch (error) {
-                alert(error.response?.data?.message || "멤버 조회에 실패했습니다.")
+                // alert(error.response?.data?.message || "멤버 조회에 실패했습니다.")
             }
         }
 
@@ -126,7 +125,9 @@ export default function MemberAutoManage({ days }) {
         const isAlreadyExclude = excludeWeekdays.includes(week);
 
         if (!isAlreadyExclude && excludeWeekdays.length === 6) {
-            alert("모든 요일를 제외할 수 없습니다.");
+            // alert();
+            window.electronApi.showAlert("모든 요일를 제외할 수 없습니다.");
+
             return;
         }
 

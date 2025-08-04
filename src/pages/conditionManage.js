@@ -5,12 +5,14 @@ import { mergeMemberWithCondition, setMember } from "../redux/memberSlice.js";
 import "../css/conditionManage.css"
 import Modal from "react-modal";
 import ConditionInput from "./conditionAssign.js";
+import ConditionInputFullMember from "./conditionFullMember.js";
 
 export default function ConditionManage() {
     const dispatch = useDispatch();
     const members = useSelector((state) => state.member.members);
     const [modalIsOpen, setModalIsOpen] = useState(false)
     const [memberConditionInfo, setMemberConditionInfo] = useState({});
+    const [modalFullOpen, setModalFullOpen] = useState(false);
 
     useEffect(() => {
         const handleGetMember = async () => {
@@ -20,7 +22,7 @@ export default function ConditionManage() {
 
                 dispatch(mergeMemberWithCondition({ members: memberRes.data, conditions: conditionRes.data }));
             } catch (error) {
-                alert(error.response?.data?.message || "멤버 조회에 실패했습니다.")
+                // alert(error.response?.data?.message || "멤버 조회에 실패했습니다.")
             }
         }
 
@@ -34,8 +36,15 @@ export default function ConditionManage() {
         setModalIsOpen(true);
     }
 
+    const handleOpenFullModal = () => {
+        setModalFullOpen(true);
+    }
+
     return (
         <div className="condition-container">
+
+            <button onClick={handleOpenFullModal}>멤버 전체 수정</button>
+
             {members.length === 0 ? (<h4>멤버가 없습니다</h4>) : (
                 <div>
                     {members.map((member) => {
@@ -65,6 +74,16 @@ export default function ConditionManage() {
                 className="modal-content"
             >
                 <ConditionInput member={memberConditionInfo} />
+            </Modal>
+
+            <Modal
+                isOpen={modalFullOpen}
+                onRequestClose={() => setModalFullOpen(false)}
+                contentLabel="조건 전체 수정"
+                overlayClassName="modal-overlay"
+                className="modal-content"
+            >
+                <ConditionInputFullMember />
             </Modal>
         </div>
     )

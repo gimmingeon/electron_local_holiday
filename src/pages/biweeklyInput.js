@@ -63,10 +63,10 @@ export default function BiweeklyInput({ days, members }) {
 
         if (!isAlreadyAssignMember) {
             setTwoAssignMember([...twoAssignMember, memberName]);
-            setTwoAssignMemberId([...oneAssignMemberId, memberId])
+            setTwoAssignMemberId([...twoAssignMemberId, memberId])
         } else {
             setTwoAssignMember(twoAssignMember.filter(name => name !== memberName));
-            setTwoAssignMemberId(oneAssignMemberId.filter(id => id !== memberId))
+            setTwoAssignMemberId(twoAssignMemberId.filter(id => id !== memberId))
         }
     }
 
@@ -160,10 +160,10 @@ export default function BiweeklyInput({ days, members }) {
 
                         <div className="group-buttons">
                             <div className="group-button1" onClick={() => handlePlusOneAssignMember(member.name, member.id)}>
-                                첫번째 그룹
+                                첫번째 주
                             </div>
                             <div className="group-button2" onClick={() => handlePlustwoAssignMember(member.name, member.id)}>
-                                두번째 그룹
+                                두번째 주
                             </div>
                         </div>
                     </div>

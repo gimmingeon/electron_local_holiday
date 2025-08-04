@@ -26,6 +26,7 @@ export default function Calendar() {
     const daysInMonth = currentDate.daysInMonth(); // 30일 또는 31일(28일)
     const [holidayCount, setHolidayCount] = useState({});
     const [importData, setImportData] = useState(false);
+    const [globalHolidayCount, setGlobalHolidayCount] = useState(0);
 
     // 모달 창 열고 닫기
     const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -44,8 +45,11 @@ export default function Calendar() {
         try {
             const response = await axios.get(`http://localhost:4000/holiday/days?year=${currentDate.year()}&month=${currentDate.month() + 1}`)
 
+            const memberReset = await axios.get('http://localhost:4000/member');
+            dispatch(setMember(memberReset.data));
+
             if (response.data.length == 0) {
-                alert("저장된 휴일이 없습니다.")
+                window.electronApi.showAlert("저장된 데이터가 없습니다.")
             } else {
 
                 if (!importData) {
@@ -56,13 +60,13 @@ export default function Calendar() {
                     }
                     setImportData(true);
                 } else {
-                    alert("이미 데이터를 불러왔습니다.")
+                    window.electronApi.showAlert("이미 데이터를 불러왔습니다.")
                 }
 
             }
 
         } catch (error) {
-            alert("휴일 조회 실패");
+            window.electronApi.showAlert("휴일 조회 실패")
         }
     }
 
@@ -86,10 +90,12 @@ export default function Calendar() {
     const handleSaveHoliday = async () => {
         try {
             const response = await axios.post("http://localhost:4000/holiday", days);
-            alert(response.data.message);
+            window.electronApi.showAlert(response.data.message)
 
+            setImportData(false);
         } catch (error) {
-            alert(error.response?.data?.message || "휴일 저장에 실패했습니다.");
+            //alert(error.response?.data?.message || "휴일 저장에 실패했습니다.");
+            window.electronApi.showAlert(error.response?.data?.message || "휴일 저장에 실패했습니다.");
         }
     }
 
@@ -109,7 +115,25 @@ export default function Calendar() {
             window.location.reload();
 
         } catch (error) {
-            alert(error.response?.data?.message || "휴일 갯수 수정 실패")
+            // alert(error.response?.data?.message || "휴일 갯수 수정 실패")
+            window.electronApi.showAlert(error.response?.data?.message || "휴일 갯수 수정 실패")
+        }
+    }
+
+    const handleUpdateAllCuount = async () => {
+        try {
+            const updates = members.map((member) =>
+                axios.patch("http://localhost:4000/member", {
+                    id: member.id,
+                    updateHoliday: globalHolidayCount,
+                })
+            );
+
+            await Promise.all(updates);
+
+            window.location.reload();
+        } catch (error) {
+            window.electronApi.showAlert(error.response?.data?.message || "휴일 갯수 수정 실패")
         }
     }
 
@@ -258,6 +282,31 @@ export default function Calendar() {
                     <div className="calendar-grid">
                         {blanks}
 
+                        {/* 캘린더 */}
+                        {days.map((item, index) => {
+                            const key = Object.keys(item).find((k) => k !== "member");
+                            const date = item[key];
+                            const members = item.member;
+                            const date_index = index;
+
+                            // const weekDay = (startDay + index) % 7;
+                            // const weekNumber = Math.floor((startDay + index) / 7) + 1;
+
+                            return (
+                                <>
+                                    <div
+                                        key={index}
+                                        onClick={() => handleDateClick(date, members, date_index)}
+                                        className="calendar-cell"
+                                    >
+                                        <div className="date-number">{index + 1}</div>
+                                        <div className="members">👤 {members.join(", ")}</div>
+                                    </div>
+                                </>
+
+                            );
+                        })}
+
                         {/* 직접 멤버 넣기 */}
                         <Modal
                             isOpen={modalIsOpen}
@@ -266,13 +315,13 @@ export default function Calendar() {
                             className="custom-modal-content"
                             overlayClassName="modal-overlay"
                         >
+                            <button onClick={() => setModalIsOpen(false)}>닫기</button>
                             <MemberSelfInput
                                 selectedDayInfo={selectedDayInfo}
                                 members={members}
                                 setSelectedDayInfo={setSelectedDayInfo}
 
                             />
-                            <button onClick={() => setModalIsOpen(false)}>닫기</button>
                         </Modal>
 
                         {/* 자동 멤버 넣기 */}
@@ -308,31 +357,6 @@ export default function Calendar() {
                             <HolidayDelete />
                         </Modal>
 
-
-                        {/* 캘린더 */}
-                        {days.map((item, index) => {
-                            const key = Object.keys(item).find((k) => k !== "member");
-                            const date = item[key];
-                            const members = item.member;
-                            const date_index = index;
-
-                            // const weekDay = (startDay + index) % 7;
-                            // const weekNumber = Math.floor((startDay + index) / 7) + 1;
-
-                            return (
-                                <>
-                                    <div
-                                        key={index}
-                                        onClick={() => handleDateClick(date, members, date_index)}
-                                        className="calendar-cell"
-                                    >
-                                        <div className="date-number">{index + 1}</div>
-                                        <div className="members">👤 {members.join(", ")}</div>
-                                    </div>
-                                </>
-
-                            );
-                        })}
                     </div>
                 </div>
             </div>
@@ -341,6 +365,20 @@ export default function Calendar() {
             <div className="calendar-sidebar-right">
                 <h2 className="sidebar-title">📌 월 휴일</h2>
                 <ul className="sidebar-menu">
+
+                    <span>휴일 전체 갯수 변경</span>
+
+                    <div className="edit-box" onClick={(e) => e.stopPropagation()}>
+                        <input
+                            type="number"
+                            value={globalHolidayCount}
+                            onChange={(e) => setGlobalHolidayCount(Number(e.target.value))}
+                        />
+                        <button onClick={handleUpdateAllCuount}>전체 등록</button>
+                    </div>
+
+
+
                     {members.length === 0 ? (<li>멤버가 없습니다</li>) : (
                         members.map((member, index) => (
                             <li
@@ -354,7 +392,6 @@ export default function Calendar() {
                                 <span style={{ color: member.monthHoliday < 0 ? 'red' : "black" }}>
                                     {member.name} - 휴일: {member.monthHoliday}개
                                 </span>
-
 
                                 {selectedMember === index && (
                                     <div className="edit-box" onClick={(e) => e.stopPropagation()} >

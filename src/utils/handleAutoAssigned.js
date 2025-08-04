@@ -3,7 +3,7 @@ import { addMember, resetWeek } from "../redux/calendarSlice.js";
 import { toggleMemberWithHoliday } from "../thunk/calendarThunks.js";
 
 export default function handleAutoAssign({
-    autoReadyMember, excludeWeekdays, weekMap, weeks, dispatch, days
+    autoReadyMember, excludeWeekdays, weekMap, weeks, dispatch
 }) {
 
     const originalWeeks = JSON.parse(JSON.stringify(weeks));
@@ -28,13 +28,15 @@ export default function handleAutoAssign({
         // index만 추출
         .map(({ index }) => index)
 
-    const shuffleDays = weeks.map(day => {
+    const shuffleDays = weeks.map((day, index) => {
         const key = Object.keys(day).find(k => k.startsWith("day"));
         return {
             [key]: day[key],
+            index,
+            weekday: day.weekday,
             member: Array.isArray(day.member) ? [...day.member] : []
         };
-    });
+    }).sort(() => Math.random() - 0.5);;
 
     const moveNextDay = () => {
         dayNum++;
@@ -59,21 +61,33 @@ export default function handleAutoAssign({
             attempts++;
 
             if (attempts > 10000) {
-                alert("자동 배정 중단: 조건을 만족할 수 없습니다.");
+                // alert();
+                window.electronApi.showAlert("자동 배정 중단: 조건을 만족할 수 없습니다.");
 
-                dispatch(resetWeek(originalWeeks));
+                // dispatch(resetWeek(originalWeeks));
 
                 return;
             }
 
+            // const currentDay = shuffleDays[dayNum];
+            // const currentDateStr = Object.values(currentDay)[0];
+            // const currentIndex = currentDay.index
+            // const currentDate = dayjs(currentDateStr);
+            // const assignedMembers = currentDay.member || [];
+            // const memberName = autoReadyMember[i].name;
+            // const memberId = autoReadyMember[i].id;
+            // const currentWeekday = currentDate.day();
+
             const currentDay = shuffleDays[dayNum];
-            const currentDateStr = Object.values(currentDay)[0];
-            const currentIndex = weeks.indexOf(currentDay);
+            const key = Object.keys(currentDay).find(k => k.startsWith("day"));
+            const currentDateStr = currentDay[key]; // 확실히 날짜만 가져옴
             const currentDate = dayjs(currentDateStr);
+            const currentIndex = currentDay.index;
             const assignedMembers = currentDay.member || [];
             const memberName = autoReadyMember[i].name;
             const memberId = autoReadyMember[i].id;
-            const currentWeekday = currentDate.day();
+            const currentWeekday = currentDay.weekday;
+
 
             if (connectNotHoliday > 0 && attempts <= 5000) {
 
@@ -146,7 +160,8 @@ export default function handleAutoAssign({
             }
 
             if (connectNotHoliday > 0 && attempts > 5000 && attempts <= 5001) {
-                alert("휴일 지양 모드 변경")
+                // alert()
+                window.electronApi.showAlert("휴일 지양 모드 변경");
             }
 
             // 제외 요일
