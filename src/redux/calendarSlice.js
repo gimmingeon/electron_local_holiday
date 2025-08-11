@@ -44,6 +44,20 @@ const calendarSlice = createSlice({
             })
         },
 
+        resetHoliday(state, action) {
+
+            const dayObj = action.payload
+
+            const dayKey = Object.keys(dayObj).find(key => key.startsWith("day"));
+
+            // 현재의 day
+            const dayItem = state.days.find(item => item[dayKey]);
+
+            if (dayKey) {
+                dayItem.member = [];
+            }
+        },
+
         addAutoMember(state, action) {
             const { day, memberName } = action.payload;
             const key = day;
@@ -75,5 +89,5 @@ const calendarSlice = createSlice({
     },
 });
 
-export const { addDay, addMember, resetDays, removeMember, addAutoMember, setDays, resetWeek } = calendarSlice.actions;
+export const { addDay, addMember, resetDays, removeMember, addAutoMember, setDays, resetWeek, resetHoliday } = calendarSlice.actions;
 export default calendarSlice.reducer;

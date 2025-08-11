@@ -1,0 +1,52 @@
+/* 전체 컨테이너 */
+.holiday-reset-container {
+    font-family: Arial, sans-serif;
+    padding: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #fafafa;
+    margin-left: 80px;
+    margin-right: 80px;
+}
+
+/* 제목 */
+.holiday-reset-title {
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+}
+
+/* 요일 버튼 스타일 */
+.holiday-reset-weekday-button {
+    padding: 0.4rem 0.8rem;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    background-color: white;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: all 0.2s ease;
+}
+
+.holiday-reset-weekday-button:hover {
+    background-color: #f2f2f2;
+}
+
+.holiday-reset-weekday-button.selected {
+    background-color: #4cafef;
+    color: white;
+    border-color: #4cafef;
+}
+
+/* 주 선택 영역 */
+.holiday-reset-week-row {
+    padding: 0.5rem 0.8rem;
+    margin-top: 0.5rem;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    cursor: pointer;
+    background-color: white;
+    transition: background-color 0.2s ease;
+}
+
+.holiday-reset-week-row:hover {
+    background-color: #f9f9f9;
+}

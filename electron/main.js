@@ -154,7 +154,15 @@ ipcMain.handle("show-alert", async (event, message) => {
     })
 })
 
-ipcMain.on('showDialog', async (event, arg) => {
-    const options = { message: 'Sample message', buttons: ['Yes', 'No'] };
-    dialog.showMessageBox(mainWindow, options);
-});
+ipcMain.handle("show-unsaved-dialog", async () => {
+    const result = await dialog.showMessageBox(mainWindow, {
+        type: "warning",
+        buttons: ["예", "아니요"],
+        defaultId: 1,
+        cancelId: 1,
+        title: "저장 안함",
+        message: "저장하지 않은 변경사항이 있습니다. 이동하시겠습니까?"
+    });
+
+    return result.response; // 0이면 예, 1이면 아니요
+})

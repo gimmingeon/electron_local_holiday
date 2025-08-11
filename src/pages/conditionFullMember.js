@@ -13,13 +13,13 @@ export default function ConditionInputFullMember() {
 
         try {
 
-            const posts = members.map((member) => {
+            const posts = members.map((member) =>
                 axios.post("http://localhost:4000/condition", {
                     memberId: member.id,
                     notHoliday: notHoliday,
                     connectNotHoliday: connectNotHoliday,
-                });
-            })
+                })
+            )
 
             await Promise.all(posts);
 

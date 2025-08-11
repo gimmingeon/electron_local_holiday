@@ -93,6 +93,15 @@ const memberSlice = createSlice({
             }
         },
 
+        minusHolidayName: (state, action) => {
+            const memberName = action.payload;
+            const targetMember = state.members.find((m) => m.name === memberName);
+
+            if (targetMember) {
+                targetMember.monthHoliday -= 1;
+            }
+        },
+
         plusMonthHoliday: (state, action) => {
             const memberId = action.payload;
             const targetMember = state.members.find((m) => m.id === memberId);
@@ -100,7 +109,20 @@ const memberSlice = createSlice({
             if (targetMember) {
                 targetMember.monthHoliday += 1;
             }
-        }
+        },
+        plusHolidayName: (state, action) => {
+            const memberName = action.payload;
+
+            memberName.map((member, index) => {
+                const targetMember = state.members.find((m) => m.name === member);
+
+                if (targetMember) {
+                    targetMember.monthHoliday += 1;
+                }
+            })
+
+
+        },
     }
 });
 
@@ -112,6 +134,8 @@ export const {
     mergeMemberWithCondition,
     mergeMemberWithConditionMate,
     minusMonthHoliday,
-    plusMonthHoliday
+    plusMonthHoliday,
+    minusHolidayName,
+    plusHolidayName
 } = memberSlice.actions;
 export default memberSlice.reducer;

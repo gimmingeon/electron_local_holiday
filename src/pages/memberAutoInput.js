@@ -36,7 +36,13 @@ export default function MemberAutoManage({ days }) {
     }, [dispatch]);
 
     useEffect(() => {
-        setAutoReadyMember(members);
+        setAutoReadyMember(prev =>
+            members.map(member => {
+                const exited = prev.find(pm => pm.id === member.id);
+                return exited ?
+                    { ...member, holiday_count: exited.holiday_count } : member;
+            })
+        );
     }, [members]);
 
     if (!members || members.length === 0) {

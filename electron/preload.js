@@ -7,5 +7,5 @@ contextBridge.exposeInMainWorld('electronApi', {
         ipcRenderer.on(channel, (event, ...args) => func(...args)),
     // showAlert: (message) => alert(message), // ✅ 여기에 넣었다고 가정
     showAlert: (message) => ipcRenderer.invoke('show-alert', message),
-    sendMessage: (message) => ipcRenderer.send(message)
+    showUnsavedDialog: () => ipcRenderer.invoke("show-unsaved-dialog")
 });

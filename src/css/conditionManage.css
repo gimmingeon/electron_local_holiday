@@ -48,3 +48,15 @@
     margin: auto;
     position: relative;
 }
+
+.condition-fullModal-button {
+    margin-bottom: 1rem;
+    padding: 0.6rem 1.2rem;
+    border: none;
+    border-radius: 8px;
+    background-color: #2196f3;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}

@@ -43,7 +43,7 @@ export default function ConditionManage() {
     return (
         <div className="condition-container">
 
-            <button onClick={handleOpenFullModal}>멤버 전체 수정</button>
+            <button className="condition-fullModal-button" onClick={handleOpenFullModal}>멤버 전체 수정</button>
 
             {members.length === 0 ? (<h4>멤버가 없습니다</h4>) : (
                 <div>

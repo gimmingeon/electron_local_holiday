@@ -11,6 +11,9 @@ import MemberSelfInput from "./memberSelfInput.js";
 import * as XLSX from 'xlsx';
 import BiweeklyInput from "./biweeklyInput.js";
 import HolidayDelete from "./holidayDelete.js";
+import jsPDF from "jspdf";
+import html2canvas from "html2canvas";
+import HolidayReset from "./holidayReset.js";
 
 export default function Calendar() {
 
@@ -25,7 +28,7 @@ export default function Calendar() {
     const startDay = startOfMonth.day(); // 일요일은 0, 월요일은 1 ...
     const daysInMonth = currentDate.daysInMonth(); // 30일 또는 31일(28일)
     const [holidayCount, setHolidayCount] = useState({});
-    const [importData, setImportData] = useState(false);
+    const [isSaved, setIsSaved] = useState(false);
     const [globalHolidayCount, setGlobalHolidayCount] = useState(0);
 
     // 모달 창 열고 닫기
@@ -33,6 +36,7 @@ export default function Calendar() {
     const [autoModalIsOpen, setAutoModalIsOpen] = useState(false);
     const [biAutoModalIsOpen, setBiAutoModalIsOpen] = useState(false);
     const [saveMonthModalIsOpen, setSaveMonthModalIsOpen] = useState(false);
+    const [holidayResetModalIsOpen, setHolidayResetModalIsOpen] = useState(false);
 
     // 날짜의 정보와 멤버
     const [selectedDayInfo, setSelectedDayInfo] = useState({ date: '', members: [], index: '' });
@@ -52,13 +56,13 @@ export default function Calendar() {
                 window.electronApi.showAlert("저장된 데이터가 없습니다.")
             } else {
 
-                if (!importData) {
+                if (!isSaved) {
                     dispatch(setDays(response.data));
                     const memberIds = response.data.flatMap((item, index) => item.members.map(member => member.id))
                     for (let i = 0; i < memberIds.length; i++) {
                         dispatch(minusMonthHoliday(memberIds[i]));
                     }
-                    setImportData(true);
+                    setIsSaved(true);
                 } else {
                     window.electronApi.showAlert("이미 데이터를 불러왔습니다.")
                 }
@@ -71,7 +75,7 @@ export default function Calendar() {
     }
 
     useEffect(() => {
-        setImportData(false);
+        setIsSaved(false);
     }, [currentDate.year(), currentDate.month()])
 
     useEffect(() => {
@@ -92,7 +96,7 @@ export default function Calendar() {
             const response = await axios.post("http://localhost:4000/holiday", days);
             window.electronApi.showAlert(response.data.message)
 
-            setImportData(false);
+            setIsSaved(false);
         } catch (error) {
             //alert(error.response?.data?.message || "휴일 저장에 실패했습니다.");
             window.electronApi.showAlert(error.response?.data?.message || "휴일 저장에 실패했습니다.");
@@ -203,6 +207,11 @@ export default function Calendar() {
         setSaveMonthModalIsOpen(true);
     };
 
+    const handleResetWeekClick = () => {
+        // 모달창을 염
+        setHolidayResetModalIsOpen(true);
+    };
+
     // 엑셀로 저장
     const exportDaysExcel = (days, currentDate, startDay) => {
         const weekDays = ["일", '월', '화', '수', '목', '금', '토'];
@@ -248,6 +257,116 @@ export default function Calendar() {
         XLSX.writeFile(workbook, filename);
     };
 
+    // PDF 저장 함수
+    const exportToPDF = async (days, currentDate, startDay = currentDate.startOf("month").day()) => {
+        // 1. 임시 div 생성
+        const container = document.createElement("div");
+        container.style.width = "1200px";
+        container.style.padding = "20px";
+        container.style.fontFamily = "Arial, sans-serif";
+        container.style.backgroundColor = "white";
+
+        // 제목
+        const title = document.createElement("h2");
+        title.textContent = `${currentDate.format("YYYY년 MM월")} 휴일 배정표`;
+        title.style.textAlign = "center";
+        container.appendChild(title);
+
+        // 테이블 생성
+        const table = document.createElement("table");
+        table.style.borderCollapse = "collapse";
+        table.style.width = "100%";
+        table.style.tableLayout = "fixed"; // 모든 셀 너비 고정
+
+        const weekDays = ["일", "월", "화", "수", "목", "금", "토"];
+
+        // 요일 헤더
+        const headerRow = document.createElement("tr");
+        weekDays.forEach((day) => {
+            const th = document.createElement("th");
+            th.textContent = day;
+            th.style.border = "1px solid black";
+            th.style.padding = "6px";
+            th.style.backgroundColor = "#f0f0f0";
+            th.style.textAlign = "center";
+            th.style.fontSize = "14px";
+            headerRow.appendChild(th);
+        });
+        table.appendChild(headerRow);
+
+        // 공백 + 날짜 데이터
+        const cells = [];
+
+        // 앞 공백 채우기
+        for (let i = 0; i < startDay; i++) {
+            cells.push({ date: "", members: [] });
+        }
+
+        // 실제 날짜 채우기
+        for (let i = 0; i < days.length; i++) {
+            const dayItem = days[i];
+            const dateKey = Object.keys(dayItem).find((k) => k !== "member");
+            const dateStr = new Date(dayItem[dateKey]).getDate() + "일";
+            const members = dayItem.member || [];
+            cells.push({ date: dateStr, members });
+        }
+
+        // 셀을 7개씩 나누어 행(row)으로 만들기
+        for (let i = 0; i < cells.length; i += 7) {
+            const weekRow = document.createElement("tr");
+
+            for (let j = 0; j < 7; j++) {
+                const cell = cells[i + j] || { date: "", members: [] };
+                const td = document.createElement("td");
+
+                td.style.border = "1px solid black";
+                td.style.width = "14.28%";
+                td.style.height = "100px";
+                td.style.verticalAlign = "top";
+                td.style.textAlign = "left";
+                td.style.padding = "4px";
+                td.style.fontSize = "12px";
+                td.style.wordBreak = "break-word";
+                td.style.whiteSpace = "pre-wrap";
+
+                const dateText = document.createElement("div");
+                dateText.textContent = cell.date;
+                dateText.style.fontWeight = "bold";
+
+                const membersText = document.createElement("div");
+                membersText.textContent = cell.members.join(", ");
+
+                td.appendChild(dateText);
+                td.appendChild(membersText);
+                weekRow.appendChild(td);
+            }
+
+            table.appendChild(weekRow);
+        }
+
+        container.appendChild(table);
+        document.body.appendChild(container); // 화면에 붙여야 렌더링됨
+
+        // 2. html2canvas로 이미지로 변환
+        const canvas = await html2canvas(container);
+        const imgData = canvas.toDataURL("image/png");
+
+        document.body.removeChild(container); // 화면에서 제거
+
+        // 3. PDF 생성
+        const pdf = new jsPDF("landscape", "mm", "a4");
+        const pageWidth = pdf.internal.pageSize.getWidth();
+        const pageHeight = pdf.internal.pageSize.getHeight();
+
+        const imgProps = pdf.getImageProperties(imgData);
+        const pdfWidth = pageWidth;
+        const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+
+        pdf.addImage(imgData, "PNG", 0, 10, pdfWidth, pdfHeight);
+        pdf.save(`${currentDate.format("YYYY-MM")}_휴일배정.pdf`);
+    };
+
+
     return (
         <div className="calendar-layout">
             {/* 사이드바 */}
@@ -256,11 +375,14 @@ export default function Calendar() {
                 <ul className="sidebar-menu">
                     <li onClick={handleAutoClick}>📆 자동 휴일 배정</li>
                     <li onClick={handleBiWeekClick}>📆 격주 휴일 배정</li>
+                    <li onClick={handleResetWeekClick}>📆 주별 초기화</li>
                     <li onClick={() => exportDaysExcel(days, currentDate, startOfMonth.day())}>📊 엑셀 저장</li>
                     <li onClick={handleSaveHoliday}>✔️휴일 저장하기</li>
                     <li onClick={handleGetHoliday}>✔️휴일 불러오기</li>
                     <li onClick={handleSaveMonthClick}>✔️ 휴일 삭제하기</li>
                     <li onClick={handleReset}>📆 새로고침</li>
+                    <li onClick={() => exportToPDF(days, currentDate)}>📄 PDF 저장</li>
+
                 </ul>
             </div>
 
@@ -347,6 +469,7 @@ export default function Calendar() {
 
                         </Modal>
 
+                        {/*휴일 삭제하기*/}
                         <Modal
                             isOpen={saveMonthModalIsOpen}
                             onRequestClose={() => setSaveMonthModalIsOpen(false)}
@@ -355,6 +478,17 @@ export default function Calendar() {
                             className="custom-modal-content"
                         >
                             <HolidayDelete />
+                        </Modal>
+
+                        {/* 휴일 주별 리셋하기 */}
+                        <Modal
+                            isOpen={holidayResetModalIsOpen}
+                            onRequestClose={() => setHolidayResetModalIsOpen(false)}
+                            contentLabel="휴일 주별 리셋"
+                            overlayClassName="modal-overlay"
+                            className="custom-modal-content"
+                        >
+                            <HolidayReset days={days} />
                         </Modal>
 
                     </div>
