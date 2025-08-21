@@ -24,3 +24,33 @@
     margin: 3px 0;
     font-size: 14px;
 }
+
+.selfInput-annual-holiday {
+    background-color: #4a90e2;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-bottom: 20px;
+    transition: background-color 0.3s ease;
+}
+
+.selfInput-annual-holiday:hover {
+    background-color: #357ab8;
+}
+
+.selfInput-redDay {
+    background-color: red;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-bottom: 20px;
+    transition: background-color 0.3s ease;
+}
+
+.selfInput-redDay:hover {
+    background-color: rgb(130, 2, 2);
+}

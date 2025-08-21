@@ -120,8 +120,18 @@ const memberSlice = createSlice({
                     targetMember.monthHoliday += 1;
                 }
             })
+        },
 
+        minusHolidayNameArray: (state, action) => {
+            const memberName = action.payload;
 
+            memberName.map((member, index) => {
+                const targetMember = state.members.find((m) => m.name === member);
+
+                if (targetMember) {
+                    targetMember.monthHoliday -= 1;
+                }
+            })
         },
     }
 });
@@ -136,6 +146,7 @@ export const {
     minusMonthHoliday,
     plusMonthHoliday,
     minusHolidayName,
-    plusHolidayName
+    plusHolidayName,
+    minusHolidayNameArray
 } = memberSlice.actions;
 export default memberSlice.reducer;

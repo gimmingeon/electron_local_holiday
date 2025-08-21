@@ -1,11 +1,15 @@
 import dayjs from "dayjs";
 import { addMember, resetWeek } from "../redux/calendarSlice.js";
 import { toggleMemberWithHoliday } from "../thunk/calendarThunks.js";
+import { useDispatch } from "react-redux";
+import { setFalse } from "../redux/saveSlice.js";
+import { failAutoReset } from "../thunk/failAutoThunk.js";
 
 export default function handleAutoAssign({
     autoReadyMember, excludeWeekdays, weekMap, weeks, dispatch
 }) {
 
+    dispatch(setFalse());
     const originalWeeks = JSON.parse(JSON.stringify(weeks));
     const excludeWeekIndexes = excludeWeekdays.map(w => weekMap.indexOf(w));
     let dayNum = 0;
@@ -34,7 +38,7 @@ export default function handleAutoAssign({
             [key]: day[key],
             index,
             weekday: day.weekday,
-            member: Array.isArray(day.member) ? [...day.member] : []
+            members: Array.isArray(day.members) ? [...day.members] : []
         };
     }).sort(() => Math.random() - 0.5);;
 
@@ -65,6 +69,7 @@ export default function handleAutoAssign({
                 window.electronApi.showAlert("자동 배정 중단: 조건을 만족할 수 없습니다.");
 
                 // dispatch(resetWeek(originalWeeks));
+                dispatch(failAutoReset(originalWeeks));
 
                 return;
             }
@@ -83,7 +88,7 @@ export default function handleAutoAssign({
             const currentDateStr = currentDay[key]; // 확실히 날짜만 가져옴
             const currentDate = dayjs(currentDateStr);
             const currentIndex = currentDay.index;
-            const assignedMembers = currentDay.member || [];
+            const assignedMembers = currentDay.members || [];
             const memberName = autoReadyMember[i].name;
             const memberId = autoReadyMember[i].id;
             const currentWeekday = currentDay.weekday;
@@ -98,7 +103,7 @@ export default function handleAutoAssign({
                 */
 
                 const assignedDatesForMember = shuffleDays
-                    .filter(day => (day.member || []).includes(memberName))
+                    .filter(day => (day.members || []).some(m => m.name === memberName))
                     .map(day => dayjs(Object.values(day)[0]));
 
                 // 
@@ -175,7 +180,7 @@ export default function handleAutoAssign({
 
             // some 함수 : 하나라도 만족하면 true를 반환한다
             const hasMateConflict = assignedMembers.some(
-                assigned => mates.includes(assigned)
+                assigned => mates.includes(assigned.name)
             );
 
             if (hasMateConflict) {
@@ -184,7 +189,7 @@ export default function handleAutoAssign({
                 continue;
             }
 
-            if (currentDay.member?.includes(autoReadyMember[i].name)) {
+            if (currentDay.members?.some(m => m.name === autoReadyMember[i].name)) {
                 moveNextDay();
                 j--; // 같은 멤버 반복
                 continue;
@@ -192,14 +197,14 @@ export default function handleAutoAssign({
             const dayKey = Object.keys(currentDay).find(key => key.startsWith("day"));
             const dayIndex = Number(dayKey.replace("day", ""));
 
-            if (!Array.isArray(currentDay.member)) {
-                currentDay.member = [];
+            if (!Array.isArray(currentDay.members)) {
+                currentDay.members = [];
             }
 
             // if (!currentDay.member) {
             //     currentDay.member = [];
             // }
-            currentDay.member.push(memberName);
+            currentDay.members.push({ name: memberName, type: "nonAnnunal" });
 
             //dispatch(addMember({ index: dayIndex, memberName }));
             dispatch(toggleMemberWithHoliday({ index: dayIndex, memberName, memberId }))

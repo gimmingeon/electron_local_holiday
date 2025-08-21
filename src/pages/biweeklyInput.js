@@ -2,8 +2,8 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import '../css/biweeklyInput.css'
 import dayjs from "dayjs";
-import { addMember } from "../redux/calendarSlice.js";
 import { toggleMemberWithHoliday } from "../thunk/calendarThunks.js";
+import { setFalse } from "../redux/saveSlice.js";
 
 export default function BiweeklyInput({ days, members }) {
 
@@ -71,13 +71,15 @@ export default function BiweeklyInput({ days, members }) {
     }
 
     const handleBiweekAssign = () => {
+        dispatch(setFalse());
         const includeWeekIndexes = includeWeekdays.map(w => weekMap.indexOf(w));
         // const oneAssignMember = assignMember.slice(0, assignMember.length / 2);
         // const twoAssignMember = assignMember.slice(Math.floor(assignMember.length / 2), assignMember.length);
 
         const fullIncluded = days
             .map((obj, index) => {
-                const dateStr = Object.values(obj)[0];
+                const dateKey = Object.keys(obj).find(key => key.startsWith("day"));
+                const dateStr = obj[dateKey];
                 const weekday = dayjs(dateStr).day();
                 return { index: index + 1, weekday };
             })

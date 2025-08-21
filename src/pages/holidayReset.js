@@ -4,6 +4,7 @@ import { useDispatch } from "react-redux";
 import { resetHoliday } from "../redux/calendarSlice";
 import "../css/holidayReset.css"
 import { plusHolidayName } from "../redux/memberSlice";
+import { setFalse } from "../redux/saveSlice";
 
 export default function HolidayReset({ days }) {
 
@@ -25,9 +26,11 @@ export default function HolidayReset({ days }) {
 
     const handleResetWeek = (weeks) => {
 
+        dispatch(setFalse());
         weeks.forEach((dayObj) => {
             if (!(excludeWeekdays.includes(dayObj.weekday))) {
-                dispatch(plusHolidayName(dayObj.member))
+                const memberNames = dayObj.members.map(m => m.name);
+                dispatch(plusHolidayName(memberNames))
                 dispatch(resetHoliday(dayObj));
             }
         });

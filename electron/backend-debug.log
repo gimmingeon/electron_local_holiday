@@ -1,174 +1,85 @@
-[2025-07-25T05:53:08.822Z] ✅ Electron isPackaged: false
-[2025-07-25T05:53:08.828Z] ✅ [DEV] Backend CWD: D:\project_2025\holiday\autoHolidayElectron\holiday_calendar_BE
-[2025-07-28T10:20:38.185Z] ✅ Electron isPackaged: false
-[2025-07-28T10:20:38.190Z] ✅ [DEV] Backend CWD: D:\project_2025\holiday\autoHolidayElectron\holiday_calendar_BE
-[2025-07-28T10:20:41.052Z] ✅ Backend 종료, 코드: 0
-[2025-07-28T10:42:12.473Z] ✅ Electron isPackaged: false
-[2025-07-28T10:42:12.478Z] ✅ [DEV] Backend CWD: D:\project_2025\holiday\autoHolidayElectron\holiday_calendar_BE
-[2025-07-28T10:42:15.464Z] ✅ Backend 종료, 코드: 0
-[2025-07-28T10:44:16.378Z] ✅ Electron isPackaged: false
-[2025-07-28T10:44:16.380Z] ✅ [DEV] Backend CWD: D:\project_2025\holiday\autoHolidayElectron\holiday_calendar_BE
-[2025-07-28T10:46:08.162Z] ✅ Electron isPackaged: false
-[2025-07-28T10:46:08.165Z] ✅ [DEV] Backend CWD: D:\project_2025\holiday\autoHolidayElectron\holiday_calendar_BE
-[2025-07-28T10:46:10.402Z] ✅ Backend 종료, 코드: 0
-[2025-07-28T23:19:17.965Z] ✅ Electron isPackaged: false
-[2025-07-28T23:19:17.969Z] ✅ [DEV] Backend CWD: D:\project_2025\holiday\autoHolidayElectron\holiday_calendar_BE
-[2025-07-28T23:53:14.425Z] ✅ Electron isPackaged: false
-[2025-07-28T23:53:14.429Z] ✅ [DEV] Backend CWD: D:\project_2025\holiday\autoHolidayElectron\holiday_calendar_BE
-[2025-07-28T23:53:17.788Z] ✅ Backend 종료, 코드: 0
-[2025-07-28T23:56:13.667Z] ✅ Electron isPackaged: false
-[2025-07-28T23:56:13.670Z] ✅ [DEV] Backend CWD: D:\project_2025\holiday\autoHolidayElectron\holiday_calendar_BE
-[2025-07-28T23:57:56.168Z] ✅ Electron isPackaged: false
-[2025-07-28T23:57:56.172Z] ✅ [DEV] Backend CWD: D:\project_2025\holiday\autoHolidayElectron\holiday_calendar_BE
-[2025-07-28T23:57:59.202Z] ✅ Backend 종료, 코드: 0
-[2025-07-29T00:03:02.740Z] ✅ Electron isPackaged: false
-[2025-07-29T00:03:02.744Z] ✅ [DEV] Backend CWD: D:\project_2025\holiday\autoHolidayElectron\holiday_calendar_BE
-[2025-07-29T00:35:28.970Z] ✅ Electron isPackaged: false
-[2025-07-29T00:35:28.975Z] ✅ [DEV] Backend CWD: D:\project_2025\holiday\autoHolidayElectron\holiday_calendar_BE
-[2025-07-29T00:35:32.265Z] ✅ Backend 종료, 코드: 0
-[2025-07-30T02:32:44.934Z] ✅ Electron isPackaged: false
-[2025-07-30T02:32:44.938Z] ✅ [DEV] Backend CWD: D:\project_2025\holiday\autoHolidayElectron\holiday_calendar_BE
-[2025-07-30T02:32:54.886Z] ✅ Backend 종료, 코드: 0
-[2025-07-30T02:34:28.046Z] ✅ Electron isPackaged: false
-[2025-07-30T02:34:28.051Z] ✅ [DEV] Backend CWD: D:\project_2025\holiday\autoHolidayElectron\holiday_calendar_BE
-[2025-07-30T02:34:32.159Z] ✅ Backend 종료, 코드: 0
-[2025-07-30T02:38:33.803Z] ✅ Electron isPackaged: false
-[2025-07-30T02:38:33.806Z] ✅ [DEV] Backend CWD: D:\project_2025\holiday\autoHolidayElectron\holiday_calendar_BE
-[2025-07-30T04:00:23.681Z] ✅ Electron isPackaged: false
-[2025-07-30T04:00:23.685Z] ✅ [DEV] Backend CWD: D:\project_2025\holiday\autoHolidayElectron\holiday_calendar_BE
-[2025-07-30T04:00:28.102Z] ✅ Backend 종료, 코드: 0
-[2025-07-30T04:01:12.698Z] ✅ Electron isPackaged: false
-[2025-07-30T04:01:12.702Z] ✅ [DEV] Backend CWD: D:\project_2025\holiday\autoHolidayElectron\holiday_calendar_BE
-[2025-07-30T04:02:36.982Z] ✅ Electron isPackaged: false
-[2025-07-30T04:02:36.986Z] ✅ [DEV] Backend CWD: D:\project_2025\holiday\autoHolidayElectron\holiday_calendar_BE
-[2025-07-30T04:02:40.853Z] ✅ Backend 종료, 코드: 0
-[2025-07-30T05:10:48.934Z] ✅ Electron isPackaged: false
-[2025-07-30T05:10:48.938Z] ✅ [DEV] Backend CWD: D:\project_2025\holiday\autoHolidayElectron\holiday_calendar_BE
-[2025-07-30T05:10:53.473Z] ✅ Backend 종료, 코드: 0
-[2025-07-30T05:13:52.155Z] ✅ Electron isPackaged: false
-[2025-07-30T05:13:52.159Z] ✅ [DEV] Backend CWD: D:\project_2025\holiday\autoHolidayElectron\holiday_calendar_BE
-[2025-07-30T05:13:56.168Z] ✅ Backend 종료, 코드: 0
-[2025-07-30T05:18:24.243Z] ✅ Electron isPackaged: false
-[2025-07-30T05:18:24.246Z] ✅ [DEV] Backend CWD: D:\project_2025\holiday\autoHolidayElectron\holiday_calendar_BE
-[2025-07-30T05:18:28.371Z] ✅ Backend 종료, 코드: 0
-[2025-07-30T05:18:57.632Z] ✅ Electron isPackaged: false
-[2025-07-30T05:18:57.635Z] ✅ [DEV] Backend CWD: D:\project_2025\holiday\autoHolidayElectron\holiday_calendar_BE
-[2025-07-30T05:19:01.467Z] ✅ Backend 종료, 코드: 0
-[2025-07-30T05:25:04.681Z] ✅ Electron isPackaged: false
-[2025-07-30T05:25:04.686Z] ✅ [DEV] Backend CWD: D:\project_2025\holiday\autoHolidayElectron\holiday_calendar_BE
-[2025-07-30T05:25:08.240Z] ✅ Backend 종료, 코드: 0
-[2025-07-30T05:36:15.239Z] ✅ Electron isPackaged: false
-[2025-07-30T05:36:15.243Z] ✅ [DEV] Backend CWD: D:\project_2025\holiday\autoHolidayElectron\holiday_calendar_BE
-[2025-07-30T05:36:19.696Z] ✅ Backend 종료, 코드: 0
-[2025-07-30T07:10:29.494Z] ✅ Electron isPackaged: false
-[2025-07-30T07:10:29.498Z] ✅ [DEV] Backend CWD: D:\project_2025\holiday\autoHolidayElectron\holiday_calendar_BE
-[2025-07-30T07:10:34.695Z] ✅ Backend 종료, 코드: 0
-[2025-08-04T00:47:10.178Z] ✅ Electron isPackaged: false
-[2025-08-04T00:47:10.183Z] ✅ [DEV] Backend CWD: D:\project_2025\holiday\autoHolidayElectron\holiday_calendar_BE
-[2025-08-04T00:47:18.023Z] ✅ Backend 종료, 코드: 0
-[2025-08-04T00:49:46.551Z] ✅ Electron isPackaged: false
-[2025-08-04T00:49:46.557Z] ✅ [DEV] Backend CWD: D:\project_2025\holiday\autoHolidayElectron\holiday_calendar_BE
-[2025-08-04T00:49:49.366Z] ✅ Backend 종료, 코드: 0
-[2025-08-04T00:52:46.375Z] ✅ Electron isPackaged: false
-[2025-08-04T00:52:46.377Z] ✅ [DEV] Backend CWD: D:\project_2025\holiday\autoHolidayElectron\holiday_calendar_BE
-[2025-08-04T00:52:49.081Z] ✅ Backend 종료, 코드: 0
-[2025-08-04T02:39:56.786Z] ✅ Electron isPackaged: false
-[2025-08-04T02:39:56.790Z] ✅ [DEV] Backend CWD: D:\project_2025\holiday\autoHolidayElectron\holiday_calendar_BE
-[2025-08-04T02:40:00.542Z] ✅ Backend 종료, 코드: 0
-[2025-08-04T05:25:18.696Z] ✅ Electron isPackaged: false
-[2025-08-04T05:25:18.699Z] ✅ [DEV] Backend CWD: D:\project_2025\holiday\autoHolidayElectron\holiday_calendar_BE
-[2025-08-04T05:25:22.509Z] ✅ Backend 종료, 코드: 0
-[2025-08-04T05:31:12.107Z] ✅ Electron isPackaged: false
-[2025-08-04T05:31:12.111Z] ✅ [DEV] Backend CWD: D:\project_2025\holiday\autoHolidayElectron\holiday_calendar_BE
-[2025-08-04T05:31:16.350Z] ✅ Backend 종료, 코드: 0
-[2025-08-04T05:37:28.230Z] ✅ Electron isPackaged: false
-[2025-08-04T05:37:28.234Z] ✅ [DEV] Backend CWD: D:\project_2025\holiday\autoHolidayElectron\holiday_calendar_BE
-[2025-08-04T05:37:31.864Z] ✅ Backend 종료, 코드: 0
-[2025-08-04T05:50:59.491Z] ✅ Electron isPackaged: false
-[2025-08-04T05:50:59.494Z] ✅ [DEV] Backend CWD: D:\project_2025\holiday\autoHolidayElectron\holiday_calendar_BE
-[2025-08-04T05:51:03.432Z] ✅ Backend 종료, 코드: 0
-[2025-08-04T05:52:43.054Z] ✅ Electron isPackaged: false
-[2025-08-04T05:52:43.058Z] ✅ [DEV] Backend CWD: D:\project_2025\holiday\autoHolidayElectron\holiday_calendar_BE
-[2025-08-04T05:52:46.558Z] ✅ Backend 종료, 코드: 0
-[2025-08-04T05:56:29.438Z] ✅ Electron isPackaged: false
-[2025-08-04T05:56:29.442Z] ✅ [DEV] Backend CWD: D:\project_2025\holiday\autoHolidayElectron\holiday_calendar_BE
-[2025-08-04T05:56:32.440Z] ✅ Backend 종료, 코드: 0
-[2025-08-04T06:24:02.828Z] ✅ Electron isPackaged: false
-[2025-08-04T06:24:02.831Z] ✅ [DEV] Backend CWD: D:\project_2025\holiday\autoHolidayElectron\holiday_calendar_BE
-[2025-08-04T06:24:06.133Z] ✅ Backend 종료, 코드: 0
-[2025-08-04T06:32:00.854Z] ✅ Electron isPackaged: false
-[2025-08-04T06:32:00.859Z] ✅ [DEV] Backend CWD: D:\project_2025\holiday\autoHolidayElectron\holiday_calendar_BE
-[2025-08-04T06:37:14.373Z] ✅ Electron isPackaged: false
-[2025-08-04T06:37:14.377Z] ✅ [DEV] Backend CWD: D:\project_2025\holiday\autoHolidayElectron\holiday_calendar_BE
-[2025-08-04T06:42:09.611Z] ✅ Electron isPackaged: false
-[2025-08-04T06:42:09.616Z] ✅ [DEV] Backend CWD: D:\project_2025\holiday\autoHolidayElectron\holiday_calendar_BE
-[2025-08-04T06:42:12.577Z] ✅ Backend 종료, 코드: 0
-[2025-08-04T07:27:11.647Z] ✅ Electron isPackaged: false
-[2025-08-04T07:27:11.650Z] ✅ [DEV] Backend CWD: D:\project_2025\holiday\autoHolidayElectron\holiday_calendar_BE
-[2025-08-04T07:27:15.083Z] ✅ Backend 종료, 코드: 0
-[2025-08-05T00:19:25.682Z] ✅ Electron isPackaged: false
-[2025-08-05T00:19:25.685Z] ✅ [DEV] Backend CWD: D:\project_2025\holiday\autoHolidayElectron\holiday_calendar_BE
-[2025-08-05T00:19:28.612Z] ✅ Backend 종료, 코드: 0
-[2025-08-05T00:35:48.333Z] ✅ Electron isPackaged: false
-[2025-08-05T00:35:48.338Z] ✅ [DEV] Backend CWD: D:\project_2025\holiday\autoHolidayElectron\holiday_calendar_BE
-[2025-08-05T00:35:58.861Z] ✅ Backend 종료, 코드: 0
-[2025-08-08T02:07:20.314Z] ✅ Electron isPackaged: false
-[2025-08-08T02:07:20.317Z] ✅ [DEV] Backend CWD: D:\project_2025\holiday\autoHolidayElectron\holiday_calendar_BE
-[2025-08-08T02:07:23.582Z] ✅ Backend 종료, 코드: 0
-[2025-08-08T02:19:29.750Z] ✅ Electron isPackaged: false
-[2025-08-08T02:19:29.753Z] ✅ [DEV] Backend CWD: D:\project_2025\holiday\autoHolidayElectron\holiday_calendar_BE
-[2025-08-08T02:19:33.732Z] ✅ Backend 종료, 코드: 0
-[2025-08-08T02:22:43.438Z] ✅ Electron isPackaged: false
-[2025-08-08T02:22:43.441Z] ✅ [DEV] Backend CWD: D:\project_2025\holiday\autoHolidayElectron\holiday_calendar_BE
-[2025-08-08T02:22:47.335Z] ✅ Backend 종료, 코드: 0
-[2025-08-08T02:37:07.885Z] ✅ Electron isPackaged: false
-[2025-08-08T02:37:07.887Z] ✅ [DEV] Backend CWD: D:\project_2025\holiday\autoHolidayElectron\holiday_calendar_BE
-[2025-08-08T02:37:11.069Z] ✅ Backend 종료, 코드: 0
-[2025-08-08T02:38:20.453Z] ✅ Electron isPackaged: false
-[2025-08-08T02:38:20.455Z] ✅ [DEV] Backend CWD: D:\project_2025\holiday\autoHolidayElectron\holiday_calendar_BE
-[2025-08-08T02:38:23.249Z] ✅ Backend 종료, 코드: 0
-[2025-08-08T04:01:08.637Z] ✅ Electron isPackaged: false
-[2025-08-08T04:01:08.640Z] ✅ [DEV] Backend CWD: D:\project_2025\holiday\autoHolidayElectron\holiday_calendar_BE
-[2025-08-08T04:01:13.714Z] ✅ Backend 종료, 코드: 0
-[2025-08-08T04:03:03.726Z] ✅ Electron isPackaged: false
-[2025-08-08T04:03:03.729Z] ✅ [DEV] Backend CWD: D:\project_2025\holiday\autoHolidayElectron\holiday_calendar_BE
-[2025-08-08T04:03:07.707Z] ✅ Backend 종료, 코드: 0
-[2025-08-08T04:04:50.060Z] ✅ Electron isPackaged: false
-[2025-08-08T04:04:50.064Z] ✅ [DEV] Backend CWD: D:\project_2025\holiday\autoHolidayElectron\holiday_calendar_BE
-[2025-08-08T04:04:53.488Z] ✅ Backend 종료, 코드: 0
-[2025-08-08T04:08:48.828Z] ✅ Electron isPackaged: false
-[2025-08-08T04:08:48.832Z] ✅ [DEV] Backend CWD: D:\project_2025\holiday\autoHolidayElectron\holiday_calendar_BE
-[2025-08-08T04:08:52.631Z] ✅ Backend 종료, 코드: 0
-[2025-08-08T04:09:26.496Z] ✅ Electron isPackaged: false
-[2025-08-08T04:09:26.498Z] ✅ [DEV] Backend CWD: D:\project_2025\holiday\autoHolidayElectron\holiday_calendar_BE
-[2025-08-08T04:09:29.807Z] ✅ Backend 종료, 코드: 0
-[2025-08-08T04:11:11.795Z] ✅ Electron isPackaged: false
-[2025-08-08T04:11:11.798Z] ✅ [DEV] Backend CWD: D:\project_2025\holiday\autoHolidayElectron\holiday_calendar_BE
-[2025-08-08T04:11:15.200Z] ✅ Backend 종료, 코드: 0
-[2025-08-08T04:13:30.743Z] ✅ Electron isPackaged: false
-[2025-08-08T04:13:30.746Z] ✅ [DEV] Backend CWD: D:\project_2025\holiday\autoHolidayElectron\holiday_calendar_BE
-[2025-08-08T04:13:34.070Z] ✅ Backend 종료, 코드: 0
-[2025-08-08T04:43:27.208Z] ✅ Electron isPackaged: false
-[2025-08-08T04:43:27.212Z] ✅ [DEV] Backend CWD: D:\project_2025\holiday\autoHolidayElectron\holiday_calendar_BE
-[2025-08-08T04:43:31.403Z] ✅ Backend 종료, 코드: 0
-[2025-08-08T04:47:48.301Z] ✅ Electron isPackaged: false
-[2025-08-08T04:47:48.304Z] ✅ [DEV] Backend CWD: D:\project_2025\holiday\autoHolidayElectron\holiday_calendar_BE
-[2025-08-08T04:47:52.145Z] ✅ Backend 종료, 코드: 0
-[2025-08-08T04:58:40.153Z] ✅ Electron isPackaged: false
-[2025-08-08T04:58:40.156Z] ✅ [DEV] Backend CWD: D:\project_2025\holiday\autoHolidayElectron\holiday_calendar_BE
-[2025-08-08T04:58:43.873Z] ✅ Backend 종료, 코드: 0
-[2025-08-08T05:02:29.846Z] ✅ Electron isPackaged: false
-[2025-08-08T05:02:29.849Z] ✅ [DEV] Backend CWD: D:\project_2025\holiday\autoHolidayElectron\holiday_calendar_BE
-[2025-08-08T05:02:33.772Z] ✅ Backend 종료, 코드: 0
-[2025-08-08T05:06:20.816Z] ✅ Electron isPackaged: false
-[2025-08-08T05:06:20.821Z] ✅ [DEV] Backend CWD: D:\project_2025\holiday\autoHolidayElectron\holiday_calendar_BE
-[2025-08-08T05:07:05.608Z] ✅ Electron isPackaged: false
-[2025-08-08T05:07:05.611Z] ✅ [DEV] Backend CWD: D:\project_2025\holiday\autoHolidayElectron\holiday_calendar_BE
-[2025-08-08T05:07:08.845Z] ✅ Backend 종료, 코드: 0
-[2025-08-08T05:09:44.071Z] ✅ Electron isPackaged: false
-[2025-08-08T05:09:44.075Z] ✅ [DEV] Backend CWD: D:\project_2025\holiday\autoHolidayElectron\holiday_calendar_BE
-[2025-08-08T06:13:21.379Z] ✅ Electron isPackaged: false
-[2025-08-08T06:13:21.383Z] ✅ [DEV] Backend CWD: D:\project_2025\holiday\autoHolidayElectron\holiday_calendar_BE
-[2025-08-08T06:22:10.700Z] ✅ Electron isPackaged: false
-[2025-08-08T06:22:10.703Z] ✅ [DEV] Backend CWD: D:\project_2025\holiday\autoHolidayElectron\holiday_calendar_BE
-[2025-08-08T06:22:14.623Z] ✅ Backend 종료, 코드: 0
+[2025-08-17T23:07:10.767Z] ✅ Electron isPackaged: false
+[2025-08-17T23:07:10.771Z] ✅ [DEV] Backend CWD: D:\project_2025\holiday\autoHolidayElectron\holiday_calendar_BE
+[2025-08-17T23:07:19.639Z] ✅ Backend 종료, 코드: 0
+[2025-08-17T23:11:11.986Z] ✅ Electron isPackaged: false
+[2025-08-17T23:11:11.990Z] ✅ [DEV] Backend CWD: D:\project_2025\holiday\autoHolidayElectron\holiday_calendar_BE
+[2025-08-17T23:11:18.212Z] ✅ Backend 종료, 코드: 0
+[2025-08-18T23:34:28.945Z] ✅ Electron isPackaged: false
+[2025-08-18T23:34:28.948Z] ✅ [DEV] Backend CWD: D:\project_2025\holiday\autoHolidayElectron\holiday_calendar_BE
+[2025-08-18T23:34:32.620Z] ✅ Backend 종료, 코드: 0
+[2025-08-18T23:47:58.945Z] ✅ Electron isPackaged: false
+[2025-08-18T23:47:58.949Z] ✅ [DEV] Backend CWD: D:\project_2025\holiday\autoHolidayElectron\holiday_calendar_BE
+[2025-08-18T23:48:02.446Z] ✅ Backend 종료, 코드: 0
+[2025-08-18T23:54:35.270Z] ✅ Electron isPackaged: false
+[2025-08-18T23:54:35.273Z] ✅ [DEV] Backend CWD: D:\project_2025\holiday\autoHolidayElectron\holiday_calendar_BE
+[2025-08-18T23:54:38.982Z] ✅ Backend 종료, 코드: 0
+[2025-08-18T23:58:18.054Z] ✅ Electron isPackaged: false
+[2025-08-18T23:58:18.057Z] ✅ [DEV] Backend CWD: D:\project_2025\holiday\autoHolidayElectron\holiday_calendar_BE
+[2025-08-18T23:58:21.588Z] ✅ Backend 종료, 코드: 0
+[2025-08-18T23:59:22.300Z] ✅ Electron isPackaged: false
+[2025-08-18T23:59:22.305Z] ✅ [DEV] Backend CWD: D:\project_2025\holiday\autoHolidayElectron\holiday_calendar_BE
+[2025-08-18T23:59:25.828Z] ✅ Backend 종료, 코드: 0
+[2025-08-19T00:27:31.012Z] ✅ Electron isPackaged: false
+[2025-08-19T00:27:31.018Z] ✅ [DEV] Backend CWD: D:\project_2025\holiday\autoHolidayElectron\holiday_calendar_BE
+[2025-08-19T00:27:41.706Z] ✅ Backend 종료, 코드: 0
+[2025-08-19T00:31:19.252Z] ✅ Electron isPackaged: false
+[2025-08-19T00:31:19.258Z] ✅ [DEV] Backend CWD: D:\project_2025\holiday\autoHolidayElectron\holiday_calendar_BE
+[2025-08-19T00:31:31.623Z] ✅ Backend 종료, 코드: 0
+[2025-08-19T04:43:45.662Z] ✅ Electron isPackaged: false
+[2025-08-19T04:43:45.666Z] ✅ [DEV] Backend CWD: D:\project_2025\holiday\autoHolidayElectron\holiday_calendar_BE
+[2025-08-19T05:05:20.028Z] ✅ Electron isPackaged: false
+[2025-08-19T05:05:20.032Z] ✅ [DEV] Backend CWD: D:\project_2025\holiday\autoHolidayElectron\holiday_calendar_BE
+[2025-08-19T05:05:23.544Z] ✅ Backend 종료, 코드: 0
+[2025-08-19T05:07:47.796Z] ✅ Electron isPackaged: false
+[2025-08-19T05:07:47.800Z] ✅ [DEV] Backend CWD: D:\project_2025\holiday\autoHolidayElectron\holiday_calendar_BE
+[2025-08-19T05:07:50.769Z] ✅ Backend 종료, 코드: 0
+[2025-08-19T05:11:59.276Z] ✅ Electron isPackaged: false
+[2025-08-19T05:11:59.280Z] ✅ [DEV] Backend CWD: D:\project_2025\holiday\autoHolidayElectron\holiday_calendar_BE
+[2025-08-19T05:12:06.970Z] ✅ Backend 종료, 코드: 0
+[2025-08-19T05:13:37.665Z] ✅ Electron isPackaged: false
+[2025-08-19T05:13:37.669Z] ✅ [DEV] Backend CWD: D:\project_2025\holiday\autoHolidayElectron\holiday_calendar_BE
+[2025-08-19T05:13:41.423Z] ✅ Backend 종료, 코드: 0
+[2025-08-19T05:21:23.519Z] ✅ Electron isPackaged: false
+[2025-08-19T05:21:23.523Z] ✅ [DEV] Backend CWD: D:\project_2025\holiday\autoHolidayElectron\holiday_calendar_BE
+[2025-08-19T05:21:27.540Z] ✅ Backend 종료, 코드: 0
+[2025-08-19T05:22:38.786Z] ✅ Electron isPackaged: false
+[2025-08-19T05:22:38.789Z] ✅ [DEV] Backend CWD: D:\project_2025\holiday\autoHolidayElectron\holiday_calendar_BE
+[2025-08-19T05:22:42.852Z] ✅ Backend 종료, 코드: 0
+[2025-08-19T05:32:41.049Z] ✅ Electron isPackaged: false
+[2025-08-19T05:32:41.052Z] ✅ [DEV] Backend CWD: D:\project_2025\holiday\autoHolidayElectron\holiday_calendar_BE
+[2025-08-19T05:32:45.311Z] ✅ Backend 종료, 코드: 0
+[2025-08-19T06:21:52.577Z] ✅ Electron isPackaged: false
+[2025-08-19T06:21:52.580Z] ✅ [DEV] Backend CWD: D:\project_2025\holiday\autoHolidayElectron\holiday_calendar_BE
+[2025-08-19T06:21:56.590Z] ✅ Backend 종료, 코드: 0
+[2025-08-19T06:33:03.134Z] ✅ Electron isPackaged: false
+[2025-08-19T06:33:03.141Z] ✅ [DEV] Backend CWD: D:\project_2025\holiday\autoHolidayElectron\holiday_calendar_BE
+[2025-08-19T06:33:07.106Z] ✅ Backend 종료, 코드: 0
+[2025-08-19T23:43:47.701Z] ✅ Electron isPackaged: false
+[2025-08-19T23:43:47.708Z] ✅ [DEV] Backend CWD: D:\project_2025\holiday\autoHolidayElectron\holiday_calendar_BE
+[2025-08-19T23:48:14.347Z] ✅ Electron isPackaged: false
+[2025-08-19T23:48:14.352Z] ✅ [DEV] Backend CWD: D:\project_2025\holiday\autoHolidayElectron\holiday_calendar_BE
+[2025-08-19T23:48:17.880Z] ✅ Backend 종료, 코드: 0
+[2025-08-19T23:50:03.055Z] ✅ Electron isPackaged: false
+[2025-08-19T23:50:03.058Z] ✅ [DEV] Backend CWD: D:\project_2025\holiday\autoHolidayElectron\holiday_calendar_BE
+[2025-08-19T23:50:06.719Z] ✅ Backend 종료, 코드: 0
+[2025-08-19T23:53:54.814Z] ✅ Electron isPackaged: false
+[2025-08-19T23:53:54.818Z] ✅ [DEV] Backend CWD: D:\project_2025\holiday\autoHolidayElectron\holiday_calendar_BE
+[2025-08-19T23:53:58.306Z] ✅ Backend 종료, 코드: 0
+[2025-08-20T00:12:44.896Z] ✅ Electron isPackaged: false
+[2025-08-20T00:12:44.902Z] ✅ [DEV] Backend CWD: D:\project_2025\holiday\autoHolidayElectron\holiday_calendar_BE
+[2025-08-20T00:12:56.230Z] ✅ Backend 종료, 코드: 0
+[2025-08-20T00:21:23.408Z] ✅ Electron isPackaged: false
+[2025-08-20T00:21:23.413Z] ✅ [DEV] Backend CWD: D:\project_2025\holiday\autoHolidayElectron\holiday_calendar_BE
+[2025-08-20T00:21:33.158Z] ✅ Backend 종료, 코드: 0
+[2025-08-20T00:23:29.341Z] ✅ Electron isPackaged: false
+[2025-08-20T00:23:29.345Z] ✅ [DEV] Backend CWD: D:\project_2025\holiday\autoHolidayElectron\holiday_calendar_BE
+[2025-08-20T00:23:34.474Z] ✅ Backend 종료, 코드: 0
+[2025-08-20T00:24:50.733Z] ✅ Electron isPackaged: false
+[2025-08-20T00:24:50.738Z] ✅ [DEV] Backend CWD: D:\project_2025\holiday\autoHolidayElectron\holiday_calendar_BE
+[2025-08-20T00:24:53.661Z] ✅ Backend 종료, 코드: 0
+[2025-08-20T00:28:24.900Z] ✅ Electron isPackaged: false
+[2025-08-20T00:28:24.903Z] ✅ [DEV] Backend CWD: D:\project_2025\holiday\autoHolidayElectron\holiday_calendar_BE
+[2025-08-20T00:44:41.947Z] ✅ Electron isPackaged: false
+[2025-08-20T00:44:41.950Z] ✅ [DEV] Backend CWD: D:\project_2025\holiday\autoHolidayElectron\holiday_calendar_BE
+[2025-08-20T00:48:31.944Z] ✅ Electron isPackaged: false
+[2025-08-20T00:48:31.952Z] ✅ [DEV] Backend CWD: D:\project_2025\holiday\autoHolidayElectron\holiday_calendar_BE

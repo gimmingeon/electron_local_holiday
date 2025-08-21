@@ -8,6 +8,7 @@ import Modal from "react-modal";
 import "./css/app.css"
 import MateManage from './pages/mateManage.js';
 import ConditionManage from './pages/conditionManage.js';
+import GuardedLink from './components/GuardedLink.js';
 
 Modal.setAppElement("#root");
 
@@ -17,12 +18,12 @@ function App() {
     <div className="App">
       <Navbar className='navbar'>
         <Container>
-          <Navbar.Brand as={Link} to='/' className='nav-button'>휴일 자동 배정</Navbar.Brand>
+          <Navbar.Brand as={GuardedLink} to='/' className='nav-button'>휴일 자동 배정</Navbar.Brand>
           <Nav className="me-auto">
-            <Nav.Link as={Link} to="/" className='nav-button'>홈</Nav.Link>
-            <Nav.Link as={Link} to="/calendar/member" className='nav-button'>멤버 관리</Nav.Link>
-            <Nav.Link as={Link} to="/calendar/mate" className='nav-button'>짝 관리</Nav.Link>
-            <Nav.Link as={Link} to="/calendar/condition" className='nav-button'>조건</Nav.Link>
+            <Nav.Link as={GuardedLink} to="/" className='nav-button'>홈</Nav.Link>
+            <Nav.Link as={GuardedLink} to="/calendar/member" className='nav-button'>멤버 관리</Nav.Link>
+            <Nav.Link as={GuardedLink} to="/calendar/mate" className='nav-button'>짝 관리</Nav.Link>
+            <Nav.Link as={GuardedLink} to="/calendar/condition" className='nav-button'>조건</Nav.Link>
           </Nav>
         </Container>
       </Navbar>

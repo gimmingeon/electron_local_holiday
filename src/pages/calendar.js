@@ -1,7 +1,7 @@
 import dayjs from "dayjs";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { addDay, addMember, resetDays, setDays } from "../redux/calendarSlice.js";
+import { addDay, addMember, redoDays, resetData, resetDays, setDays, undoDays } from "../redux/calendarSlice.js";
 import Modal from "react-modal";
 import "../css/calendar.css"
 import axios from "axios";
@@ -14,13 +14,18 @@ import HolidayDelete from "./holidayDelete.js";
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
 import HolidayReset from "./holidayReset.js";
+import { redoWithMembers, undoWithMembers } from "../thunk/undeRedoMember.js";
+import { setTrue } from "../redux/saveSlice.js";
+import { useNavigate } from "react-router-dom";
 
 export default function Calendar() {
 
 
     const dispatch = useDispatch();
+    const navigate = useNavigate();
 
-    const days = useSelector((state) => state.calendar.days)
+    const days = useSelector((state) => state.calendar.days);
+    const save = useSelector((state) => state.save.save);
 
     // 오늘 날짜
     const [currentDate, setCurrentDate] = useState(dayjs());
@@ -47,6 +52,7 @@ export default function Calendar() {
 
     const handleGetHoliday = async () => {
         try {
+            dispatch(setTrue())
             const response = await axios.get(`http://localhost:4000/holiday/days?year=${currentDate.year()}&month=${currentDate.month() + 1}`)
 
             const memberReset = await axios.get('http://localhost:4000/member');
@@ -91,12 +97,30 @@ export default function Calendar() {
 
     }, [dispatch, currentDate, daysInMonth]);
 
+    // 저장안하면 이동 차단
+    useEffect(() => {
+        const unblock = navigate((location, action) => {
+            if (!save) {
+                window.electronAPI.showUnsavedDialog().then((res) => {
+                    if (res === 0) {
+                        unblock();
+                        navigate(location.pathname); // 이동 허용
+                    }
+                });
+                return false; // 이동 차단
+            }
+        });
+
+        return unblock;
+    }, [isSaved, navigate]);
+
     const handleSaveHoliday = async () => {
         try {
             const response = await axios.post("http://localhost:4000/holiday", days);
             window.electronApi.showAlert(response.data.message)
 
             setIsSaved(false);
+            dispatch(setTrue());
         } catch (error) {
             //alert(error.response?.data?.message || "휴일 저장에 실패했습니다.");
             window.electronApi.showAlert(error.response?.data?.message || "휴일 저장에 실패했습니다.");
@@ -143,6 +167,7 @@ export default function Calendar() {
 
     const handleReset = () => {
         window.location.reload();
+        dispatch(setTrue());
     }
 
     const handleGetMember = async () => {
@@ -158,19 +183,39 @@ export default function Calendar() {
     // 다음달로 이동
     const handleaddMonth = async () => {
 
-        setCurrentDate(currentDate.add(1, "month"));
-
-        handleGetMember();
-
+        if (!save) {
+            const res = await window.electronApi.showUnsavedDialog();
+            if (res === 0) {
+                setCurrentDate(currentDate.add(1, "month"));
+                dispatch(setTrue());
+                handleGetMember();
+                dispatch(resetData());
+            }
+        } else {
+            setCurrentDate(currentDate.add(1, "month"));
+            dispatch(setTrue());
+            handleGetMember();
+            dispatch(resetData());
+        }
     }
 
     // 이전 달로 이동
-    const handlesubtractMonth = () => {
+    const handlesubtractMonth = async () => {
 
-        setCurrentDate(currentDate.subtract(1, "month"));
-
-
-        handleGetMember();
+        if (!save) {
+            const res = await window.electronApi.showUnsavedDialog();
+            if (res === 0) {
+                setCurrentDate(currentDate.subtract(1, "month"));
+                dispatch(setTrue());
+                handleGetMember();
+                dispatch(resetData());
+            }
+        } else {
+            setCurrentDate(currentDate.subtract(1, "month"));
+            dispatch(setTrue());
+            handleGetMember();
+            dispatch(resetData());
+        }
     }
 
     const blanks = Array.from({ length: startDay }, (_, i) => <div key={`b-${i}`} className="p-2" />);
@@ -185,10 +230,12 @@ export default function Calendar() {
 
     // 모달 열기
     const handleDateClick = (date, members, date_index) => {
+
         // date와 멤버의 정보를 담음
         setSelectedDayInfo({ date, members, index: date_index });
         // 모달창을 염
         setModalIsOpen(true);
+
     };
 
     // 자동 모달 열기
@@ -305,10 +352,19 @@ export default function Calendar() {
         // 실제 날짜 채우기
         for (let i = 0; i < days.length; i++) {
             const dayItem = days[i];
-            const dateKey = Object.keys(dayItem).find((k) => k !== "member");
-            const dateStr = new Date(dayItem[dateKey]).getDate() + "일";
-            const members = dayItem.member || [];
-            cells.push({ date: dateStr, members });
+            const dateKey = Object.keys(dayItem).find((k) => k.startsWith("day"));
+            const dateStr = new Date(dayItem[dateKey]).getDate();
+            const members = dayItem.members || [];
+            const dateObj = new Date(dayItem[dateKey]);
+
+            // ✅ 일요일이거나 holidayType === 'legal' 인 경우 체크
+            const isHoliday = dateObj.getDay() === 0 || dayItem.holidayType === "legal";
+
+            cells.push({
+                date: dateStr,
+                members,
+                isHoliday // 스타일용 속성 추가
+            });
         }
 
         // 셀을 7개씩 나누어 행(row)으로 만들기
@@ -329,20 +385,78 @@ export default function Calendar() {
                 td.style.wordBreak = "break-word";
                 td.style.whiteSpace = "pre-wrap";
 
-                const dateText = document.createElement("div");
-                dateText.textContent = cell.date;
-                dateText.style.fontWeight = "bold";
+                // 날짜 먼저 추가
+                // const dateText = document.createElement("div");
+                // dateText.textContent = cell.date;
+                // dateText.style.fontWeight = "bold";
+                // td.appendChild(dateText);
 
-                const membersText = document.createElement("div");
-                membersText.textContent = cell.members.join(", ");
+                // ✅ 휴일이면 날짜를 빨간색
+                const dateDiv = document.createElement("div");
+                dateDiv.textContent = cell.date;
+                if (cell.isHoliday) dateDiv.style.color = "red";
+                dateDiv.style.fontWeight = "bold";
+                dateDiv.style.marginBottom = "4px"; // 날짜와 멤버 사이 간격
 
-                td.appendChild(dateText);
-                td.appendChild(membersText);
+                td.appendChild(dateDiv);
+
+                // 멤버 추가
+                cell.members.forEach((m) => {
+                    const memberSpan = document.createElement("span");
+
+                    if (m.type === "Annual") {
+                        memberSpan.textContent = `${m.name}(연차)`;
+                        memberSpan.style.fontWeight = "bold";
+                        memberSpan.style.color = "blue";
+                    } else {
+                        memberSpan.textContent = m.name;
+                    }
+
+                    memberSpan.style.display = "inline-block"; // ✅ 옆으로 나란히
+                    memberSpan.style.marginRight = "4px";      // ✅ 간격
+                    memberSpan.style.whiteSpace = "nowrap";    // 이름 안에서 줄바꿈 안되게
+
+                    td.appendChild(memberSpan);
+                });
+
                 weekRow.appendChild(td);
             }
 
             table.appendChild(weekRow);
         }
+
+        // for (let i = 0; i < cells.length; i += 7) {
+        //     const weekRow = document.createElement("tr");
+
+        //     for (let j = 0; j < 7; j++) {
+        //         const cell = cells[i + j] || { date: "", members: [] };
+        //         const td = document.createElement("td");
+
+        //         td.style.border = "1px solid black";
+        //         td.style.width = "14.28%";
+        //         td.style.height = "100px";
+        //         td.style.verticalAlign = "top";
+        //         td.style.textAlign = "left";
+        //         td.style.padding = "4px";
+        //         td.style.fontSize = "12px";
+        //         td.style.wordBreak = "break-word";
+        //         td.style.whiteSpace = "pre-wrap";
+
+        //         const dateText = document.createElement("div");
+        //         dateText.textContent = cell.date;
+        //         dateText.style.fontWeight = "bold";
+
+        //         const membersText = document.createElement("div");
+        //         membersText.textContent = cell.members.join(", ");
+
+        //         td.appendChild(dateText);
+        //         td.appendChild(membersText);
+        //         weekRow.appendChild(td);
+        //     }
+
+        //     table.appendChild(weekRow);
+        // }
+
 
         container.appendChild(table);
         document.body.appendChild(container); // 화면에 붙여야 렌더링됨
@@ -366,13 +480,14 @@ export default function Calendar() {
         pdf.save(`${currentDate.format("YYYY-MM")}_휴일배정.pdf`);
     };
 
-
     return (
         <div className="calendar-layout">
             {/* 사이드바 */}
             <div className="calendar-sidebar-fixed">
                 <h2 className="sidebar-title">📅 캘린더</h2>
                 <ul className="sidebar-menu">
+                    <li onClick={() => dispatch(undoWithMembers())}>📆 뒤로가기</li>
+                    <li onClick={() => dispatch(redoWithMembers())}>📆 앞으로가기</li>
                     <li onClick={handleAutoClick}>📆 자동 휴일 배정</li>
                     <li onClick={handleBiWeekClick}>📆 격주 휴일 배정</li>
                     <li onClick={handleResetWeekClick}>📆 주별 초기화</li>
@@ -406,26 +521,41 @@ export default function Calendar() {
 
                         {/* 캘린더 */}
                         {days.map((item, index) => {
-                            const key = Object.keys(item).find((k) => k !== "member");
+                            const key = Object.keys(item).find((k) => k.startsWith("day"));
                             const date = item[key];
-                            const members = item.member;
+                            const members = item.members;
                             const date_index = index;
 
                             // const weekDay = (startDay + index) % 7;
                             // const weekNumber = Math.floor((startDay + index) / 7) + 1;
 
                             return (
-                                <>
-                                    <div
-                                        key={index}
-                                        onClick={() => handleDateClick(date, members, date_index)}
-                                        className="calendar-cell"
-                                    >
-                                        <div className="date-number">{index + 1}</div>
-                                        <div className="members">👤 {members.join(", ")}</div>
-                                    </div>
-                                </>
+                                <div
+                                    key={index}
+                                    onClick={() => handleDateClick(date, members, date_index)}
+                                    className="calendar-cell"
+                                >
+                                    <div className="date-number"
+                                        style={{ color: item.holidayType === "legal" || dayjs(date).day() === 0 ? "red" : "black" }}
+                                    >{index + 1}</div>
 
+                                    <div className="members">
+                                        {members.map((member, i) => (
+                                            <span
+                                                key={i}
+                                                style={{
+                                                    color: member.type === "Annual" ? "blue" : "black",
+                                                    fontWeight: member.type === "Annual" ? "bold" : "normal",
+                                                    marginRight: '0.25rem'
+                                                }}
+                                            >
+                                                {member.name}
+                                                {member.type === "Annual" ? "(연차)" : ""}
+                                                {i !== members.length - 1 ? "," : ""}
+                                            </span>
+                                        ))}
+                                    </div>
+                                </div>
                             );
                         })}
 
@@ -552,7 +682,7 @@ export default function Calendar() {
 
                 </ul>
             </div>
-        </div>
+        </div >
     );
 
 

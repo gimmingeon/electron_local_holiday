@@ -9,7 +9,7 @@ export const toggleMemberWithHoliday = ({ index, memberName, memberId }) => (dis
 
     if (!dayItem) return;
 
-    const isExist = dayItem.member.includes(memberName);
+    const isExist = dayItem.members.some(m => m.name === memberName);
 
     if (isExist) {
         // dispatch(removeMember({ index, memberName }));
@@ -17,7 +17,7 @@ export const toggleMemberWithHoliday = ({ index, memberName, memberId }) => (dis
         // dispatch(plusMonthHoliday(memberId));
         return;
     } else {
-        dispatch(addMember({ index, memberName }))
+        dispatch(addMember({ index, member: { name: memberName, type: "nonAnnunal" } }))
 
         dispatch(minusMonthHoliday(memberId));
     }

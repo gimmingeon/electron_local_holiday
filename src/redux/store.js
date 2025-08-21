@@ -4,6 +4,7 @@ import memberReducer from './memberSlice.js'
 import userReducer from './userSlice.js'
 import mateReducer from './mateSlice.js'
 import conditionReducer from './conditionSlice.js'
+import saveReducer from "./saveSlice.js"
 
 const store = configureStore({
     reducer: {
@@ -12,6 +13,7 @@ const store = configureStore({
         user: userReducer,
         mate: mateReducer,
         condition: conditionReducer,
+        save: saveReducer,
     }
 });
 

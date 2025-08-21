@@ -1,10 +1,13 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import "../css/holidayDelete.css"
+import { useDispatch } from "react-redux";
+import { setTrue } from "../redux/saveSlice";
 
 export default function HolidayDelete() {
 
     const [saveMonth, setSaveMonth] = useState([]);
+    const dispatch = useDispatch();
 
     useEffect(() => {
         const handleGetMonth = async () => {
@@ -29,6 +32,8 @@ export default function HolidayDelete() {
 
             const response = await axios.get('http://localhost:4000/holiday/month');
             setSaveMonth(response.data);
+
+            dispatch(setTrue());
         } catch (error) {
             // alert(error.response?.data?.message || "휴일 삭제에 실패했습니다.");
             window.electronApi.showAlert(error.response?.data?.message || "휴일 삭제에 실패했습니다.");
